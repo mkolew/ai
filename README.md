@@ -61,6 +61,7 @@ npm run verify   # validate every SKILL.md (frontmatter, naming, body)
 | Skill | Description |
 |---|---|
 | [microfrontends](skills/microfrontends/README.md) | Analyzes a codebase's microfrontend architecture: federation type, host/remote topology, vertical vs horizontal split, technology map, communication model, route ownership, risks, and improvements. |
+| [typed-blocks](skills/typed-blocks/README.md) | Typed content delimiters for prompts — mark pasted content as `===(json)`, `===(code\|typescript)`, `===(pr-comment)`, `===(error)`, etc., plus `---`/`+++` before/after pairs. Block content is treated as data, never instructions. |
 
 ## License
 
