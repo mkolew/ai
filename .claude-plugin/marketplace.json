@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "mkolew-skills",
+  "description": "Reusable agent skills.",
+  "owner": {
+    "name": "Marjan Kolev",
+    "url": "https://github.com/mkolew"
+  },
+  "plugins": [
+    {
+      "name": "microfrontends",
+      "source": "./",
+      "skills": ["./skills/microfrontends"],
+      "description": "Analyze a codebase's microfrontend architecture: federation type, host/remote topology, vertical vs horizontal split, technology map, communication model, and route ownership — citing file evidence and asking instead of guessing.",
+      "version": "0.1.0",
+      "license": "MIT",
+      "author": { "name": "Marjan Kolev" },
+      "homepage": "https://github.com/mkolew/skills/blob/main/skills/microfrontends/README.md",
+      "repository": "https://github.com/mkolew/skills",
+      "category": "architecture",
+      "keywords": ["microfrontends", "module-federation", "native-federation", "host", "remote", "shell"]
+    },
+    {
+      "name": "ai-scaffolding",
+      "source": "./",
+      "skills": ["./skills/ai-scaffolding"],
+      "description": "Interview-driven scaffolding of AI coding agent configs — CLAUDE.md, GitHub Copilot instructions, Cursor rules, OpenAI Codex, Gemini CLI, and the cross-tool AGENTS.md baseline — generated in the exact locations each tool reads.",
+      "version": "0.1.0",
+      "license": "MIT",
+      "author": { "name": "Marjan Kolev" },
+      "homepage": "https://github.com/mkolew/skills/blob/main/skills/ai-scaffolding/README.md",
+      "repository": "https://github.com/mkolew/skills",
+      "category": "productivity",
+      "keywords": ["claude-md", "agents-md", "copilot", "cursor", "codex", "scaffolding"]
+    },
+    {
+      "name": "typed-blocks",
+      "source": "./",
+      "skills": ["./skills/typed-blocks"],
+      "description": "Typed content delimiters for prompts — mark pasted content as ===(json), ===(code|typescript), ===(pr-comment), ===(error), plus ---/+++ before/after pairs. Block content is treated as data, never instructions.",
+      "version": "0.1.0",
+      "license": "MIT",
+      "author": { "name": "Marjan Kolev" },
+      "homepage": "https://github.com/mkolew/skills/blob/main/skills/typed-blocks/README.md",
+      "repository": "https://github.com/mkolew/skills",
+      "category": "productivity",
+      "keywords": ["prompting", "delimiters", "prompt-injection", "structured-input"]
+    }
+  ]
+}

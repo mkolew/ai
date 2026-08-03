@@ -5,6 +5,8 @@ A collection of reusable **agent skills** — markdown instructions that teach A
 Each skill lives in its own directory, described by a `SKILL.md` the agent reads and a `README.md` for humans:
 
 ```text
+.claude-plugin/
+  marketplace.json   # Claude Code plugin catalog — one plugin per skill
 skills/
   ai-scaffolding/
     SKILL.md      # frontmatter (name, description) + agent instructions
@@ -24,6 +26,54 @@ scripts/
 Skills are **prompts, not code**: the agent reads the skill and follows its workflow. That keeps every skill pluggable, independent, and agent-platform agnostic.
 
 ## Installation
+
+Two ways to install: as a **Claude Code plugin** from the marketplace in this repo, or as a **plain skill file** with the `skills` installer (works with any agent).
+
+### Claude Code plugin marketplace
+
+This repo doubles as a plugin marketplace named `mkolew-skills`. Each skill ships as its own plugin, so you install only the ones you want.
+
+**Inside Claude Code.** Add the marketplace once, then install per plugin:
+
+```text
+/plugin marketplace add mkolew/skills
+/plugin install microfrontends@mkolew-skills
+/plugin install ai-scaffolding@mkolew-skills
+/plugin install typed-blocks@mkolew-skills
+/reload-plugins
+```
+
+Or run `/plugin` on its own to browse the catalog and install from the list. Installing asks for a scope — `user` (machine-wide), `project` (shared through the repo's `.claude/settings.json`), or `local` (this machine, not committed).
+
+**From the CLI**, for dotfiles and scripting:
+
+```bash
+claude plugin marketplace add mkolew/skills
+claude plugin install typed-blocks@mkolew-skills            # user scope (default)
+claude plugin install typed-blocks@mkolew-skills -s project # shared with the team
+```
+
+**For a whole team.** Commit this to your project's `.claude/settings.json` and everyone who clones and trusts the folder is prompted to install:
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "mkolew-skills": {
+      "source": { "source": "github", "repo": "mkolew/skills" }
+    }
+  },
+  "enabledPlugins": {
+    "microfrontends@mkolew-skills": true,
+    "typed-blocks@mkolew-skills": true
+  }
+}
+```
+
+**After installing**, Claude invokes each skill automatically from its `description` triggers. To invoke one by hand, use the plugin namespace: `/microfrontends:microfrontends`, `/ai-scaffolding:ai-scaffolding`, `/typed-blocks:typed-blocks`.
+
+**Updates.** Run `/plugin marketplace update mkolew-skills` to refresh the catalog. Plugins are pinned to the `version` in `marketplace.json`, so a new copy arrives only when that string changes — see [Releasing](#releasing).
+
+### `npx skills add` (any agent)
 
 Install skills from this repo with the [`skills`](https://www.npmjs.com/package/skills) installer:
 
@@ -68,7 +118,34 @@ npm run verify   # validate every skill (frontmatter, naming, body, README)
    Keep `description` under 1024 characters — installers enforce that limit.
 
 3. Add `skills/<skill-name>/README.md` documenting the skill for humans (what it does, when it triggers, an example). `npm run verify` fails without it.
-4. Run `npm run verify`.
+4. Publish it as a plugin — add an entry to `.claude-plugin/marketplace.json`:
+
+   ```json
+   {
+     "name": "my-skill",
+     "source": "./",
+     "skills": ["./skills/my-skill"],
+     "description": "What it does, for the plugin browser",
+     "version": "0.1.0",
+     "license": "MIT"
+   }
+   ```
+
+   `source: "./"` points at this repo; `skills` scopes the entry to one skill directory so the other skills don't load with it. `npm run verify` fails when a skill has no marketplace entry, or when an entry points at a directory with no `SKILL.md`.
+
+5. Run `npm run verify`, then `claude plugin validate .` to check the marketplace catalog itself (schema, duplicate plugin names, source paths).
+
+## Releasing
+
+Pushing to `main` updates the catalog, but installed plugins are pinned to the `version` string in their `marketplace.json` entry. **Bump `version` on every meaningful skill change**, otherwise existing users keep the copy they already have. Users then pick it up with `/plugin marketplace update mkolew-skills`.
+
+Names are stable identifiers, so treat them as public API:
+
+| Field | Cost of renaming after release |
+|---|---|
+| Marketplace `name` | Highest — no migration path. Users must remove the marketplace, re-add it, and reinstall every plugin. |
+| Plugin `name` | Breaks existing installs. Add a top-level `renames` map (`{"old-name": "new-name"}`, or `null` if removed) so Claude Code migrates users automatically. Treat it as append-only history. |
+| `displayName` | Free — a UI label only, not used for lookup or namespacing. |
 
 ## Available skills
 
