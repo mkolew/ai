@@ -14,6 +14,11 @@ skills/
   microfrontends/
     SKILL.md
     README.md
+  startup-script/
+    SKILL.md
+    README.md
+    references/
+      patterns.md # tested bash primitives the skill reuses
   typed-blocks/
     SKILL.md
     README.md
@@ -40,6 +45,7 @@ This repo doubles as a plugin marketplace named `mkolew-skills`. Each skill ship
 /plugin install microfrontends@mkolew-skills
 /plugin install ai-scaffolding@mkolew-skills
 /plugin install typed-blocks@mkolew-skills
+/plugin install startup-script@mkolew-skills
 /reload-plugins
 ```
 
@@ -69,7 +75,7 @@ claude plugin install typed-blocks@mkolew-skills -s project # shared with the te
 }
 ```
 
-**After installing**, Claude invokes each skill automatically from its `description` triggers. To invoke one by hand, use the plugin namespace: `/microfrontends:microfrontends`, `/ai-scaffolding:ai-scaffolding`, `/typed-blocks:typed-blocks`.
+**After installing**, Claude invokes each skill automatically from its `description` triggers. To invoke one by hand, use the plugin namespace: `/microfrontends:microfrontends`, `/ai-scaffolding:ai-scaffolding`, `/typed-blocks:typed-blocks`, `/startup-script:startup-script`.
 
 **Updates.** Run `/plugin marketplace update mkolew-skills` to refresh the catalog. Plugins are pinned to the `version` in `marketplace.json`, so a new copy arrives only when that string changes — see [Releasing](#releasing).
 
@@ -85,6 +91,7 @@ npx skills@latest add mkolew/skills
 npx skills@latest add mkolew/skills --skill microfrontends
 npx skills@latest add mkolew/skills --skill ai-scaffolding
 npx skills@latest add mkolew/skills --skill typed-blocks
+npx skills@latest add mkolew/skills --skill startup-script
 ```
 
 The installer copies the skill into your agent's skill directory (e.g. `.claude/skills/` for Claude Code), where it becomes automatically discoverable.
