@@ -11,17 +11,25 @@ skills/
   ai-scaffolding/
     SKILL.md      # frontmatter (name, description) + agent instructions
     README.md     # human-facing docs for the skill
+    examples/
+      prompts.md  # copy-paste prompts for common cases
   microfrontends/
     SKILL.md
     README.md
+    examples/
+      prompts.md
   startup-script/
     SKILL.md
     README.md
+    examples/
+      prompts.md
     references/
       patterns.md # tested bash primitives the skill reuses
   typed-blocks/
     SKILL.md
     README.md
+    examples/
+      prompts.md
 scripts/
   lib.mjs            # shared frontmatter parser + skill loader
   list-skills.mjs    # catalog all skills in this repo
@@ -103,7 +111,7 @@ npm run list     # list all skills with descriptions
 npm run verify   # validate every skill (frontmatter, naming, body, README)
 ```
 
-`verify` fails when a skill is missing `SKILL.md` or `README.md`, when frontmatter `name` does not match the directory name, when `description` is absent or exceeds 1024 characters, or when the instruction body is effectively empty.
+`verify` fails when a skill is missing `SKILL.md`, `README.md`, or `examples/prompts.md`, when frontmatter `name` does not match the directory name, when `description` is absent or exceeds 1024 characters, or when the instruction body is effectively empty.
 
 ## Adding a new skill
 
@@ -125,7 +133,8 @@ npm run verify   # validate every skill (frontmatter, naming, body, README)
    Keep `description` under 1024 characters — installers enforce that limit.
 
 3. Add `skills/<skill-name>/README.md` documenting the skill for humans (what it does, when it triggers, an example). `npm run verify` fails without it.
-4. Publish it as a plugin — add an entry to `.claude-plugin/marketplace.json`:
+4. Add `skills/<skill-name>/examples/prompts.md` — copy-paste prompts users can send with only small edits. Use `<ALL CAPS>` placeholders for the parts they must replace. Also required by `npm run verify`.
+5. Publish it as a plugin — add an entry to `.claude-plugin/marketplace.json`:
 
    ```json
    {
@@ -140,7 +149,7 @@ npm run verify   # validate every skill (frontmatter, naming, body, README)
 
    `source: "./"` points at this repo; `skills` scopes the entry to one skill directory so the other skills don't load with it. `npm run verify` fails when a skill has no marketplace entry, or when an entry points at a directory with no `SKILL.md`.
 
-5. Run `npm run verify`, then `claude plugin validate .` to check the marketplace catalog itself (schema, duplicate plugin names, source paths).
+6. Run `npm run verify`, then `claude plugin validate .` to check the marketplace catalog itself (schema, duplicate plugin names, source paths).
 
 ## Releasing
 

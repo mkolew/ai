@@ -28,10 +28,16 @@ npx skills@latest add mkolew/skills --skill ai-scaffolding
 ## Usage
 
 ```text
-/ai-scaffolding
+/ai-scaffolding                    installed as a skill file
+/ai-scaffolding:ai-scaffolding     installed as a Claude Code plugin
 ```
 
 or just ask: "set up AI agent configs for this repo".
+
+**Ready-made prompts:** [examples/prompts.md](examples/prompts.md) —
+copy-paste prompts for the common cases (answer the interview up front, one
+agent only, AGENTS.md baseline only, monorepo with path-scoped rules, add a
+tool to an existing setup, refresh stale config, audit before generating).
 
 ### Example session
 

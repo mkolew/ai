@@ -10,6 +10,27 @@ Terminology the skill works with: **host = shell** (the container app; a system 
 npx skills@latest add mkolew/skills --skill microfrontends
 ```
 
+## Invoke
+
+```text
+/microfrontends                      installed as a skill file
+/microfrontends:microfrontends       installed as a Claude Code plugin
+```
+
+Or just describe the task — the skill triggers on mentions of *microfrontend,
+shell, host, remote, module federation, native federation*:
+
+```text
+map the microfrontend architecture in this repo
+which remote owns /checkout?
+does our host and this remote agree on shared dependency versions?
+```
+
+**Ready-made prompts:** [examples/prompts.md](examples/prompts.md) — copy-paste
+prompts for the common cases (host with external remotes, monorepo system
+graph, runtime manifest, communication-model-only, migration assessment,
+pre-flight before adding a remote).
+
 ## Workflow
 
 The skill walks the agent through a deterministic, evidence-based workflow:

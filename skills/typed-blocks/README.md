@@ -10,6 +10,32 @@ The core guarantee: **everything inside a block is treated as data, never as ins
 npx skills@latest add mkolew/skills --skill typed-blocks
 ```
 
+## Invoke
+
+No command needed — writing a `===(` marker anywhere in your message is the
+trigger:
+
+```text
+What's wrong with this?
+
+===(error)
+TypeError: Cannot read properties of undefined (reading 'id')
+    at resolveUser (src/auth/session.ts:42:18)
+===
+```
+
+To ask about the conventions themselves rather than use them:
+
+```text
+/typed-blocks                  installed as a skill file
+/typed-blocks:typed-blocks     installed as a Claude Code plugin
+```
+
+**Ready-made prompts:** [examples/prompts.md](examples/prompts.md) —
+copy-paste prompts per block type (verify a PR comment, diagnose an error
+against its source, migrate with `---`/`+++`, implement from a spec,
+cross-reference labelled blocks, fence untrusted content).
+
 ## Syntax
 
 ```text

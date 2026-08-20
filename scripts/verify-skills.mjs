@@ -6,6 +6,7 @@
  *  - description is non-empty and within the 1024-char limit installers enforce
  *  - body has actual instructions
  *  - a README.md sits next to SKILL.md documenting the skill for humans
+ *  - examples/prompts.md provides copy-paste prompts for users
  *
  * Also validates .claude-plugin/marketplace.json: every skill is published as a
  * plugin, and every plugin entry points at a skill that exists.
@@ -43,6 +44,9 @@ for (const skill of skills) {
   if (skill.body.trim().length < 100) problems.push(`${where}/SKILL.md: body looks empty`);
   if (!existsSync(join(SKILLS_DIR, skill.dir, 'README.md'))) {
     problems.push(`${where}: missing README.md (every skill must document itself for humans)`);
+  }
+  if (!existsSync(join(SKILLS_DIR, skill.dir, 'examples', 'prompts.md'))) {
+    problems.push(`${where}: missing examples/prompts.md (every skill must ship copy-paste prompts)`);
   }
 }
 

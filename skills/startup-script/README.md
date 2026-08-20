@@ -18,10 +18,16 @@ npx skills@latest add mkolew/skills --skill startup-script
 ## Use
 
 ```text
-/startup-script
+/startup-script                    installed as a skill file
+/startup-script:startup-script     installed as a Claude Code plugin
 ```
 
 Or just ask: *"give me a one-command way to start this project locally"*.
+
+**Ready-made prompts:** [examples/prompts.md](examples/prompts.md) —
+copy-paste prompts for the common cases (multi-component repo, Docker Compose
+infra, menus for brands/tenants/profiles, fixing an existing script,
+diagnosing "it starts but the page is wrong", fresh-machine onboarding).
 
 ## What it produces
 
