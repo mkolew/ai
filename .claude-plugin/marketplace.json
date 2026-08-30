@@ -1,6 +1,6 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "mkolew-skills",
+  "name": "mkolew",
   "description": "Reusable agent skills.",
   "owner": {
     "name": "Marjan Kolev",

@@ -44,16 +44,16 @@ Two ways to install: as a **Claude Code plugin** from the marketplace in this re
 
 ### Claude Code plugin marketplace
 
-This repo doubles as a plugin marketplace named `mkolew-skills`. Each skill ships as its own plugin, so you install only the ones you want.
+This repo doubles as a plugin marketplace named `mkolew`. Each skill ships as its own plugin, so you install only the ones you want.
 
 **Inside Claude Code.** Add the marketplace once, then install per plugin:
 
 ```text
 /plugin marketplace add mkolew/skills
-/plugin install microfrontends@mkolew-skills
-/plugin install ai-scaffolding@mkolew-skills
-/plugin install typed-blocks@mkolew-skills
-/plugin install startup-script@mkolew-skills
+/plugin install microfrontends@mkolew
+/plugin install ai-scaffolding@mkolew
+/plugin install typed-blocks@mkolew
+/plugin install startup-script@mkolew
 /reload-plugins
 ```
 
@@ -63,8 +63,8 @@ Or run `/plugin` on its own to browse the catalog and install from the list. Ins
 
 ```bash
 claude plugin marketplace add mkolew/skills
-claude plugin install typed-blocks@mkolew-skills            # user scope (default)
-claude plugin install typed-blocks@mkolew-skills -s project # shared with the team
+claude plugin install typed-blocks@mkolew            # user scope (default)
+claude plugin install typed-blocks@mkolew -s project # shared with the team
 ```
 
 **For a whole team.** Commit this to your project's `.claude/settings.json` and everyone who clones and trusts the folder is prompted to install:
@@ -72,20 +72,20 @@ claude plugin install typed-blocks@mkolew-skills -s project # shared with the te
 ```json
 {
   "extraKnownMarketplaces": {
-    "mkolew-skills": {
+    "mkolew": {
       "source": { "source": "github", "repo": "mkolew/skills" }
     }
   },
   "enabledPlugins": {
-    "microfrontends@mkolew-skills": true,
-    "typed-blocks@mkolew-skills": true
+    "microfrontends@mkolew": true,
+    "typed-blocks@mkolew": true
   }
 }
 ```
 
 **After installing**, Claude invokes each skill automatically from its `description` triggers. To invoke one by hand, use the plugin namespace: `/microfrontends:microfrontends`, `/ai-scaffolding:ai-scaffolding`, `/typed-blocks:typed-blocks`, `/startup-script:startup-script`.
 
-**Updates.** Run `/plugin marketplace update mkolew-skills` to refresh the catalog. Plugins are pinned to the `version` in `marketplace.json`, so a new copy arrives only when that string changes — see [Releasing](#releasing).
+**Updates.** Run `/plugin marketplace update mkolew` to refresh the catalog. Plugins are pinned to the `version` in `marketplace.json`, so a new copy arrives only when that string changes — see [Releasing](#releasing).
 
 ### `npx skills add` (any agent)
 
@@ -153,7 +153,7 @@ npm run verify   # validate every skill (frontmatter, naming, body, README)
 
 ## Releasing
 
-Pushing to `main` updates the catalog, but installed plugins are pinned to the `version` string in their `marketplace.json` entry. **Bump `version` on every meaningful skill change**, otherwise existing users keep the copy they already have. Users then pick it up with `/plugin marketplace update mkolew-skills`.
+Pushing to `main` updates the catalog, but installed plugins are pinned to the `version` string in their `marketplace.json` entry. **Bump `version` on every meaningful skill change**, otherwise existing users keep the copy they already have. Users then pick it up with `/plugin marketplace update mkolew`.
 
 Names are stable identifiers, so treat them as public API:
 
