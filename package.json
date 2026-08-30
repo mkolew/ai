@@ -1,8 +1,8 @@
 {
-  "name": "skills",
+  "name": "ai",
   "version": "0.1.0",
   "private": true,
-  "description": "Agent skills collection — installable with `npx skills add`",
+  "description": "Reusable building blocks for AI coding agents — skills installable with `npx skills add`, and more as it grows",
   "type": "module",
   "scripts": {
     "list": "node scripts/list-skills.mjs",

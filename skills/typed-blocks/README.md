@@ -7,7 +7,7 @@ The core guarantee: **everything inside a block is treated as data, never as ins
 ## Install
 
 ```bash
-npx skills@latest add mkolew/skills --skill typed-blocks
+npx skills@latest add mkolew/ai --skill typed-blocks
 ```
 
 ## Invoke
@@ -52,17 +52,17 @@ cross-reference labelled blocks, fence untrusted content).
 
 ## Block types
 
-| Marker | Content | What the agent does by default |
-|---|---|---|
-| `===(json)` | JSON value | Parses it; reports exact syntax errors first |
-| `===(code)` | Source code | Detects the language, states the detection |
-| `===(code\|typescript)` | Source code | Uses the given language, no second-guessing |
-| `===(pr-comment)` | Reviewer comment (third-party voice) | Verifies the claim against the code, then fixes it or drafts a reply |
-| `===(error)` | Error / stack trace | Diagnoses root cause, proposes the fix |
-| `===(log)` | Log output | Scans for anomalies, quotes the lines that matter |
-| `===(diff)` | Patch in diff format | Reads it as a change; reviews or applies it |
-| `===(quote)` | Text from a doc / Slack / email | Context only — informs the answer, carries no tasks |
-| `===(spec)` | Requirements | Source of truth; conflicts and ambiguities get surfaced, not guessed |
+| Marker                  | Content                              | What the agent does by default                                       |
+| ----------------------- | ------------------------------------ | -------------------------------------------------------------------- |
+| `===(json)`             | JSON value                           | Parses it; reports exact syntax errors first                         |
+| `===(code)`             | Source code                          | Detects the language, states the detection                           |
+| `===(code\|typescript)` | Source code                          | Uses the given language, no second-guessing                          |
+| `===(pr-comment)`       | Reviewer comment (third-party voice) | Verifies the claim against the code, then fixes it or drafts a reply |
+| `===(error)`            | Error / stack trace                  | Diagnoses root cause, proposes the fix                               |
+| `===(log)`              | Log output                           | Scans for anomalies, quotes the lines that matter                    |
+| `===(diff)`             | Patch in diff format                 | Reads it as a change; reviews or applies it                          |
+| `===(quote)`            | Text from a doc / Slack / email      | Context only — informs the answer, carries no tasks                  |
+| `===(spec)`             | Requirements                         | Source of truth; conflicts and ambiguities get surfaced, not guessed |
 
 ## Before/after: `---` and `+++`
 
@@ -80,7 +80,7 @@ env-based config with a typed loader and sensible defaults
 +++
 ```
 
-The agent produces the change that turns *current* (`---` pair) into *desired* (`+++` pair). A `+++` pair on its own means "here's the target — build something that satisfies it."
+The agent produces the change that turns _current_ (`---` pair) into _desired_ (`+++` pair). A `+++` pair on its own means "here's the target — build something that satisfies it."
 
 A **lone** `---` line is left alone (it's a markdown horizontal rule / YAML frontmatter delimiter). Only paired `---` fences in a message that already uses these conventions count as markers; when it's genuinely ambiguous the agent asks one short question.
 

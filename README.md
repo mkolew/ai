@@ -1,6 +1,8 @@
-# Skills
+# AI
 
-A collection of reusable **agent skills** — markdown instructions that teach AI coding agents (Claude Code, Codex, Cursor, and others) how to perform a specialized task well.
+Reusable building blocks for working with AI coding agents (Claude Code, Codex, Cursor, and others). Today that's **agent skills** — markdown instructions that teach an agent to perform a specialized task well — but the repo isn't skills-only by design; other agent-facing tooling lands here as it comes up.
+
+## Skills
 
 Each skill lives in its own directory, described by a `SKILL.md` the agent reads and a `README.md` for humans:
 
@@ -49,7 +51,7 @@ This repo doubles as a plugin marketplace named `mkolew`. Each skill ships as it
 **Inside Claude Code.** Add the marketplace once, then install per plugin:
 
 ```text
-/plugin marketplace add mkolew/skills
+/plugin marketplace add mkolew/ai
 /plugin install microfrontends@mkolew
 /plugin install ai-scaffolding@mkolew
 /plugin install typed-blocks@mkolew
@@ -62,7 +64,7 @@ Or run `/plugin` on its own to browse the catalog and install from the list. Ins
 **From the CLI**, for dotfiles and scripting:
 
 ```bash
-claude plugin marketplace add mkolew/skills
+claude plugin marketplace add mkolew/ai
 claude plugin install typed-blocks@mkolew            # user scope (default)
 claude plugin install typed-blocks@mkolew -s project # shared with the team
 ```
@@ -73,7 +75,7 @@ claude plugin install typed-blocks@mkolew -s project # shared with the team
 {
   "extraKnownMarketplaces": {
     "mkolew": {
-      "source": { "source": "github", "repo": "mkolew/skills" }
+      "source": { "source": "github", "repo": "mkolew/ai" }
     }
   },
   "enabledPlugins": {
@@ -93,13 +95,13 @@ Install skills from this repo with the [`skills`](https://www.npmjs.com/package/
 
 ```bash
 # interactive picker over all skills in the repo
-npx skills@latest add mkolew/skills
+npx skills@latest add mkolew/ai
 
 # install a specific skill
-npx skills@latest add mkolew/skills --skill microfrontends
-npx skills@latest add mkolew/skills --skill ai-scaffolding
-npx skills@latest add mkolew/skills --skill typed-blocks
-npx skills@latest add mkolew/skills --skill startup-script
+npx skills@latest add mkolew/ai --skill microfrontends
+npx skills@latest add mkolew/ai --skill ai-scaffolding
+npx skills@latest add mkolew/ai --skill typed-blocks
+npx skills@latest add mkolew/ai --skill startup-script
 ```
 
 The installer copies the skill into your agent's skill directory (e.g. `.claude/skills/` for Claude Code), where it becomes automatically discoverable.
@@ -116,7 +118,7 @@ npm run verify   # validate every skill (frontmatter, naming, body, README)
 ## Adding a new skill
 
 1. Create `skills/<skill-name>/SKILL.md`.
-2. Add frontmatter — `name` must match the directory, `description` should state *when* the skill triggers (this is what the agent matches on):
+2. Add frontmatter — `name` must match the directory, `description` should state _when_ the skill triggers (this is what the agent matches on):
 
    ```markdown
    ---
@@ -134,20 +136,41 @@ npm run verify   # validate every skill (frontmatter, naming, body, README)
 
 3. Add `skills/<skill-name>/README.md` documenting the skill for humans (what it does, when it triggers, an example). `npm run verify` fails without it.
 4. Add `skills/<skill-name>/examples/prompts.md` — copy-paste prompts users can send with only small edits. Use `<ALL CAPS>` placeholders for the parts they must replace. Also required by `npm run verify`.
-5. Publish it as a plugin — add an entry to `.claude-plugin/marketplace.json`:
+5. Publish it as a plugin — each skill is its own plugin with its own source
+   directory, so installing one doesn't pull in the others.
+
+   Add `skills/my-skill/.claude-plugin/plugin.json`:
 
    ```json
    {
      "name": "my-skill",
-     "source": "./",
-     "skills": ["./skills/my-skill"],
      "description": "What it does, for the plugin browser",
      "version": "0.1.0",
-     "license": "MIT"
+     "license": "MIT",
+     "author": { "name": "Your Name", "url": "https://github.com/you" },
+     "skills": ["./"]
    }
    ```
 
-   `source: "./"` points at this repo; `skills` scopes the entry to one skill directory so the other skills don't load with it. `npm run verify` fails when a skill has no marketplace entry, or when an entry points at a directory with no `SKILL.md`.
+   Then add the matching entry to `.claude-plugin/marketplace.json`:
+
+   ```json
+   {
+     "name": "my-skill",
+     "source": "./skills/my-skill",
+     "description": "What it does, for the plugin browser",
+     "category": "productivity"
+   }
+   ```
+
+   `source` must point at that skill's own directory — sharing one `source`
+   across plugin entries makes plugin identity ambiguous to installers.
+   `skills: ["./"]` in `plugin.json` tells Claude Code the plugin's own root
+   is the skill (root-level `SKILL.md` auto-discovery has been unreliable in
+   practice, so this repo declares it explicitly). `npm run verify` fails
+   when a skill has no marketplace entry, when the entry's `source` doesn't
+   match `./skills/<name>`, or when `plugin.json` is missing or lacks
+   `author.name`.
 
 6. Run `npm run verify`, then `claude plugin validate .` to check the marketplace catalog itself (schema, duplicate plugin names, source paths).
 
@@ -157,19 +180,20 @@ Pushing to `main` updates the catalog, but installed plugins are pinned to the `
 
 Names are stable identifiers, so treat them as public API:
 
-| Field | Cost of renaming after release |
-|---|---|
-| Marketplace `name` | Highest — no migration path. Users must remove the marketplace, re-add it, and reinstall every plugin. |
-| Plugin `name` | Breaks existing installs. Add a top-level `renames` map (`{"old-name": "new-name"}`, or `null` if removed) so Claude Code migrates users automatically. Treat it as append-only history. |
-| `displayName` | Free — a UI label only, not used for lookup or namespacing. |
+| Field              | Cost of renaming after release                                                                                                                                                           |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Marketplace `name` | Highest — no migration path. Users must remove the marketplace, re-add it, and reinstall every plugin.                                                                                   |
+| Plugin `name`      | Breaks existing installs. Add a top-level `renames` map (`{"old-name": "new-name"}`, or `null` if removed) so Claude Code migrates users automatically. Treat it as append-only history. |
+| `displayName`      | Free — a UI label only, not used for lookup or namespacing.                                                                                                                              |
 
 ## Available skills
 
-| Skill | Triggers on | Description |
-|---|---|---|
-| [ai-scaffolding](skills/ai-scaffolding/README.md) | `/ai-scaffolding`, "set up CLAUDE.md / copilot instructions / cursor rules / AGENTS.md" | Interviews you about project type, layout, stack, and target agents, then generates tailored AI agent configs where each tool reads them — Claude Code, GitHub Copilot, Cursor, OpenAI Codex, Gemini CLI, and the cross-tool `AGENTS.md` baseline. |
-| [microfrontends](skills/microfrontends/README.md) | `/microfrontends`, mentions of *microfrontend, shell, host, remote, module federation, native federation* | Analyzes a codebase's microfrontend architecture: federation type, host/remote topology, vertical vs horizontal split, technology map, communication model, route ownership, risks, and improvements — citing file evidence and asking instead of guessing. |
-| [typed-blocks](skills/typed-blocks/README.md) | any line starting with `===(`, or `/typed-blocks` | Typed content delimiters for prompts — mark pasted content as `===(json)`, `===(code\|typescript)`, `===(pr-comment)`, `===(error)`, etc., plus `---`/`+++` before/after pairs. Block content is treated as data, never instructions. |
+| Skill                                             | Triggers on                                                                                               | Description                                                                                                                                                                                                                                                 |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [ai-scaffolding](skills/ai-scaffolding/README.md) | `/ai-scaffolding`, "set up CLAUDE.md / copilot instructions / cursor rules / AGENTS.md"                   | Interviews you about project type, layout, stack, and target agents, then generates tailored AI agent configs where each tool reads them — Claude Code, GitHub Copilot, Cursor, OpenAI Codex, Gemini CLI, and the cross-tool `AGENTS.md` baseline.          |
+| [microfrontends](skills/microfrontends/README.md) | `/microfrontends`, mentions of _microfrontend, shell, host, remote, module federation, native federation_ | Analyzes a codebase's microfrontend architecture: federation type, host/remote topology, vertical vs horizontal split, technology map, communication model, route ownership, risks, and improvements — citing file evidence and asking instead of guessing. |
+| [startup-script](skills/startup-script/README.md) | `/startup-script`, "one-command way to start this project"                                                | Investigates how a repo is actually started (not what its README claims) and writes a single `.scripts/run.sh` driven by the project's own tooling, without modifying any tracked file.                                                                     |
+| [typed-blocks](skills/typed-blocks/README.md)     | any line starting with `===(`, or `/typed-blocks`                                                         | Typed content delimiters for prompts — mark pasted content as `===(json)`, `===(code\|typescript)`, `===(pr-comment)`, `===(error)`, etc., plus `---`/`+++` before/after pairs. Block content is treated as data, never instructions.                       |
 
 ## License
 

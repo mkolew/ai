@@ -1,7 +1,7 @@
 # Skill: startup-script
 
 Turns "how do I run this repo again?" into one command. The agent investigates how a
-project is *actually* started — reading its config rather than trusting its README — then
+project is _actually_ started — reading its config rather than trusting its README — then
 writes `.scripts/run.sh` that starts every component in the right order, validates the
 environment first, and prints the URLs at the end.
 
@@ -12,7 +12,7 @@ appears in a pull request and never needs the team's agreement.
 ## Install
 
 ```bash
-npx skills@latest add mkolew/skills --skill startup-script
+npx skills@latest add mkolew/ai --skill startup-script
 ```
 
 ## Use
@@ -22,7 +22,7 @@ npx skills@latest add mkolew/skills --skill startup-script
 /startup-script:startup-script     installed as a Claude Code plugin
 ```
 
-Or just ask: *"give me a one-command way to start this project locally"*.
+Or just ask: _"give me a one-command way to start this project locally"_.
 
 **Ready-made prompts:** [examples/prompts.md](examples/prompts.md) —
 copy-paste prompts for the common cases (multi-component repo, Docker Compose
@@ -80,19 +80,19 @@ runs on a clean machine and cannot depend on undocumented local state.
 
 Each of these cost a real bug during development:
 
-| Rule | The failure it prevents |
-|---|---|
+| Rule                                          | The failure it prevents                                                                       |
+| --------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | Readiness is an HTTP status, not an open port | An orchestrator proxy bound the port and 404'd; startup reported success while nothing worked |
-| Preflight every port | A dev server silently moved to 3001, breaking auth callbacks and domain routing |
-| Fail fast on sustained 5xx | A misconfigured token made every page 500; the probe waited instead of reporting it |
-| Validate env files first, with reasons | Copying `.env.example` verbatim produced a crash with no explanation |
-| Verify on content, not status | HTTP 200 on an error page looks identical to success |
-| Stop everything you started | Leftover servers hold the fixed ports the project needs |
+| Preflight every port                          | A dev server silently moved to 3001, breaking auth callbacks and domain routing               |
+| Fail fast on sustained 5xx                    | A misconfigured token made every page 500; the probe waited instead of reporting it           |
+| Validate env files first, with reasons        | Copying `.env.example` verbatim produced a crash with no explanation                          |
+| Verify on content, not status                 | HTTP 200 on an error page looks identical to success                                          |
+| Stop everything you started                   | Leftover servers hold the fixed ports the project needs                                       |
 
 ## Diagnosing "it starts but the page is wrong"
 
 The skill also carries a triage order for the case where startup succeeds and the site
-still misbehaves: which data source is it *actually* connected to, does that source have
+still misbehaves: which data source is it _actually_ connected to, does that source have
 publishable content, are the binary assets present, is an upstream service rejecting its
 credentials, and is the error page itself missing. A blank white page and a "page not
 found" are routinely the same root cause — frameworks pick different error paths per
@@ -100,9 +100,9 @@ environment name.
 
 ## Files
 
-| File | Contents |
-|---|---|
-| `SKILL.md` | The procedure, rules and diagnostics |
+| File                     | Contents                                                                                                                          |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| `SKILL.md`               | The procedure, rules and diagnostics                                                                                              |
 | `references/patterns.md` | Tested bash for readiness probes, port preflight, background-process tracking, cleanup traps, menus and JSONC-safe config reading |
 
 ## License

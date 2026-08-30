@@ -1,13 +1,13 @@
 # Skill: microfrontends
 
-Analyzes a codebase's microfrontend architecture. Triggers on `/microfrontends` or mentions of *microfrontend(s), shell, host, remote, module federation, native federation*.
+Analyzes a codebase's microfrontend architecture. Triggers on `/microfrontends` or mentions of _microfrontend(s), shell, host, remote, module federation, native federation_.
 
 Terminology the skill works with: **host = shell** (the container app; a system has exactly one) and **remote = microfrontend** (independently built and deployed feature apps; a system has many).
 
 ## Install
 
 ```bash
-npx skills@latest add mkolew/skills --skill microfrontends
+npx skills@latest add mkolew/ai --skill microfrontends
 ```
 
 ## Invoke
@@ -17,8 +17,8 @@ npx skills@latest add mkolew/skills --skill microfrontends
 /microfrontends:microfrontends       installed as a Claude Code plugin
 ```
 
-Or just describe the task — the skill triggers on mentions of *microfrontend,
-shell, host, remote, module federation, native federation*:
+Or just describe the task — the skill triggers on mentions of _microfrontend,
+shell, host, remote, module federation, native federation_:
 
 ```text
 map the microfrontend architecture in this repo

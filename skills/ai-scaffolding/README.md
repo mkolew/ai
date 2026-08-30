@@ -5,14 +5,14 @@ skill interviews you (project type, folder layout, tech stack, which agents
 you use), inspects your repo to pre-fill what it can, then generates
 tailored config files in the exact locations each tool reads:
 
-| Agent          | What you get                                                        |
-| -------------- | ------------------------------------------------------------------- |
-| Claude Code    | `CLAUDE.md`, `.claude/` (settings, skills, commands, agents, hooks), `.mcp.json` |
+| Agent          | What you get                                                                                |
+| -------------- | ------------------------------------------------------------------------------------------- |
+| Claude Code    | `CLAUDE.md`, `.claude/` (settings, skills, commands, agents, hooks), `.mcp.json`            |
 | GitHub Copilot | `.github/copilot-instructions.md`, instructions, prompts, agents, hooks, `.vscode/mcp.json` |
-| Cursor         | `.cursor/rules/*.mdc` (all three activation modes), commands, hooks, `mcp.json` |
-| OpenAI Codex   | `AGENTS.md`, `.codex/config.toml` (MCP, agents, hooks)              |
-| Gemini CLI     | `GEMINI.md`, `.gemini/settings.json`, TOML commands                 |
-| AGENTS.md      | the cross-tool baseline, read by 28+ tools — always recommended     |
+| Cursor         | `.cursor/rules/*.mdc` (all three activation modes), commands, hooks, `mcp.json`             |
+| OpenAI Codex   | `AGENTS.md`, `.codex/config.toml` (MCP, agents, hooks)                                      |
+| Gemini CLI     | `GEMINI.md`, `.gemini/settings.json`, TOML commands                                         |
+| AGENTS.md      | the cross-tool baseline, read by 28+ tools — always recommended                             |
 
 Generated content is real, not boilerplate: your actual commands, your
 folder tree, opinionated conventions for your chosen stack (React, Angular,
@@ -22,7 +22,7 @@ frontend+backend monorepos.
 ## Install
 
 ```bash
-npx skills@latest add mkolew/skills --skill ai-scaffolding
+npx skills@latest add mkolew/ai --skill ai-scaffolding
 ```
 
 ## Usage
