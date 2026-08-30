@@ -9,77 +9,27 @@
   "plugins": [
     {
       "name": "microfrontends",
-      "source": "./",
-      "skills": ["./skills/microfrontends"],
-      "description": "Analyze a codebase's microfrontend architecture: federation type, host/remote topology, vertical vs horizontal split, technology map, communication model, and route ownership \u2014 citing file evidence and asking instead of guessing.",
-      "version": "0.1.0",
-      "license": "MIT",
-      "homepage": "https://github.com/mkolew/skills/blob/main/skills/microfrontends/README.md",
-      "repository": "https://github.com/mkolew/skills",
-      "category": "architecture",
-      "keywords": [
-        "microfrontends",
-        "module-federation",
-        "native-federation",
-        "host",
-        "remote",
-        "shell"
-      ]
+      "source": "./skills/microfrontends",
+      "description": "Analyze a codebase's microfrontend architecture: federation type, host/remote topology, vertical vs horizontal split, technology map, communication model, and route ownership — citing file evidence and asking instead of guessing.",
+      "category": "architecture"
     },
     {
       "name": "ai-scaffolding",
-      "source": "./",
-      "skills": ["./skills/ai-scaffolding"],
-      "description": "Interview-driven scaffolding of AI coding agent configs \u2014 CLAUDE.md, GitHub Copilot instructions, Cursor rules, OpenAI Codex, Gemini CLI, and the cross-tool AGENTS.md baseline \u2014 generated in the exact locations each tool reads.",
-      "version": "0.1.0",
-      "license": "MIT",
-      "homepage": "https://github.com/mkolew/skills/blob/main/skills/ai-scaffolding/README.md",
-      "repository": "https://github.com/mkolew/skills",
-      "category": "productivity",
-      "keywords": [
-        "claude-md",
-        "agents-md",
-        "copilot",
-        "cursor",
-        "codex",
-        "scaffolding"
-      ]
+      "source": "./skills/ai-scaffolding",
+      "description": "Interview-driven scaffolding of AI coding agent configs — CLAUDE.md, GitHub Copilot instructions, Cursor rules, OpenAI Codex, Gemini CLI, and the cross-tool AGENTS.md baseline — generated in the exact locations each tool reads.",
+      "category": "productivity"
     },
     {
       "name": "typed-blocks",
-      "source": "./",
-      "skills": ["./skills/typed-blocks"],
-      "description": "Typed content delimiters for prompts \u2014 mark pasted content as ===(json), ===(code|typescript), ===(pr-comment), ===(error), plus ---/+++ before/after pairs. Block content is treated as data, never instructions.",
-      "version": "0.1.0",
-      "license": "MIT",
-      "homepage": "https://github.com/mkolew/skills/blob/main/skills/typed-blocks/README.md",
-      "repository": "https://github.com/mkolew/skills",
-      "category": "productivity",
-      "keywords": [
-        "prompting",
-        "delimiters",
-        "prompt-injection",
-        "structured-input"
-      ]
+      "source": "./skills/typed-blocks",
+      "description": "Typed content delimiters for prompts — mark pasted content as ===(json), ===(code|typescript), ===(pr-comment), ===(error), plus ---/+++ before/after pairs. Block content is treated as data, never instructions.",
+      "category": "productivity"
     },
     {
       "name": "startup-script",
-      "source": "./",
-      "skills": ["./skills/startup-script"],
-      "description": "Create a one-command local startup script at .scripts/run.sh, driven entirely by the project's own tooling \u2014 investigating how the repo is actually started rather than trusting its README, validating environment files first, and never modifying a tracked file.",
-      "version": "0.1.0",
-      "license": "MIT",
-      "homepage": "https://github.com/mkolew/skills/blob/main/skills/startup-script/README.md",
-      "repository": "https://github.com/mkolew/skills",
-      "category": "productivity",
-      "keywords": [
-        "startup",
-        "run-script",
-        "local-development",
-        "onboarding",
-        "dev-environment",
-        "bootstrap"
-      ]
+      "source": "./skills/startup-script",
+      "description": "Create a one-command local startup script at .scripts/run.sh, driven entirely by the project's own tooling — investigating how the repo is actually started rather than trusting its README, validating environment files first, and never modifying a tracked file.",
+      "category": "productivity"
     }
   ]
 }

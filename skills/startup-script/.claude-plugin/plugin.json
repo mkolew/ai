@@ -1,0 +1,17 @@
+{
+  "name": "startup-script",
+  "description": "Create a one-command local startup script at .scripts/run.sh, driven entirely by the project's own tooling — investigating how the repo is actually started rather than trusting its README, validating environment files first, and never modifying a tracked file.",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": { "name": "Marjan Kolev", "url": "https://github.com/mkolew" },
+  "homepage": "https://github.com/mkolew/skills/blob/main/skills/startup-script/README.md",
+  "repository": "https://github.com/mkolew/skills",
+  "keywords": [
+    "startup",
+    "run-script",
+    "local-development",
+    "onboarding",
+    "dev-environment",
+    "bootstrap"
+  ]
+}
