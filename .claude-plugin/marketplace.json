@@ -30,6 +30,12 @@
       "source": "./skills/startup-script",
       "description": "Create a one-command local startup script at .scripts/run.sh, driven entirely by the project's own tooling — investigating how the repo is actually started rather than trusting its README, validating environment files first, and never modifying a tracked file.",
       "category": "productivity"
+    },
+    {
+      "name": "comment-hygiene",
+      "source": "./skills/comment-hygiene",
+      "description": "Enforce consistent comment style as the agent writes code — one-line comments stay one line, template/HTML comments never leak into the DOM, and every method/class you write gets a doc comment (JSDoc, Javadoc, C# XML doc, docstring, godoc, rustdoc, YARD, PHPDoc, GDScript ##) with the right params/return/purpose — never backfilling docs on existing code unless asked.",
+      "category": "productivity"
     }
   ]
 }

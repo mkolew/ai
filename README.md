@@ -15,6 +15,13 @@ skills/
     README.md     # human-facing docs for the skill
     examples/
       prompts.md  # copy-paste prompts for common cases
+  comment-hygiene/
+    SKILL.md
+    README.md
+    examples/
+      prompts.md
+    references/
+      languages.md # per-language comment + doc-comment rules
   microfrontends/
     SKILL.md
     README.md
@@ -56,6 +63,7 @@ This repo doubles as a plugin marketplace named `mkolew`. Each skill ships as it
 /plugin install ai-scaffolding@mkolew
 /plugin install typed-blocks@mkolew
 /plugin install startup-script@mkolew
+/plugin install comment-hygiene@mkolew
 /reload-plugins
 ```
 
@@ -102,6 +110,7 @@ npx skills@latest add mkolew/ai --skill microfrontends
 npx skills@latest add mkolew/ai --skill ai-scaffolding
 npx skills@latest add mkolew/ai --skill typed-blocks
 npx skills@latest add mkolew/ai --skill startup-script
+npx skills@latest add mkolew/ai --skill comment-hygiene
 ```
 
 The installer copies the skill into your agent's skill directory (e.g. `.claude/skills/` for Claude Code), where it becomes automatically discoverable.
@@ -188,12 +197,13 @@ Names are stable identifiers, so treat them as public API:
 
 ## Available skills
 
-| Skill                                             | Triggers on                                                                                               | Description                                                                                                                                                                                                                                                 |
-| ------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [ai-scaffolding](skills/ai-scaffolding/README.md) | `/ai-scaffolding`, "set up CLAUDE.md / copilot instructions / cursor rules / AGENTS.md"                   | Interviews you about project type, layout, stack, and target agents, then generates tailored AI agent configs where each tool reads them — Claude Code, GitHub Copilot, Cursor, OpenAI Codex, Gemini CLI, and the cross-tool `AGENTS.md` baseline.          |
-| [microfrontends](skills/microfrontends/README.md) | `/microfrontends`, mentions of _microfrontend, shell, host, remote, module federation, native federation_ | Analyzes a codebase's microfrontend architecture: federation type, host/remote topology, vertical vs horizontal split, technology map, communication model, route ownership, risks, and improvements — citing file evidence and asking instead of guessing. |
-| [startup-script](skills/startup-script/README.md) | `/startup-script`, "one-command way to start this project"                                                | Investigates how a repo is actually started (not what its README claims) and writes a single `.scripts/run.sh` driven by the project's own tooling, without modifying any tracked file.                                                                     |
-| [typed-blocks](skills/typed-blocks/README.md)     | any line starting with `===(`, or `/typed-blocks`                                                         | Typed content delimiters for prompts — mark pasted content as `===(json)`, `===(code\|typescript)`, `===(pr-comment)`, `===(error)`, etc., plus `---`/`+++` before/after pairs. Block content is treated as data, never instructions.                       |
+| Skill                                               | Triggers on                                                                                               | Description                                                                                                                                                                                                                                                                                                                                                                   |
+| --------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [ai-scaffolding](skills/ai-scaffolding/README.md)   | `/ai-scaffolding`, "set up CLAUDE.md / copilot instructions / cursor rules / AGENTS.md"                   | Interviews you about project type, layout, stack, and target agents, then generates tailored AI agent configs where each tool reads them — Claude Code, GitHub Copilot, Cursor, OpenAI Codex, Gemini CLI, and the cross-tool `AGENTS.md` baseline.                                                                                                                            |
+| [microfrontends](skills/microfrontends/README.md)   | `/microfrontends`, mentions of _microfrontend, shell, host, remote, module federation, native federation_ | Analyzes a codebase's microfrontend architecture: federation type, host/remote topology, vertical vs horizontal split, technology map, communication model, route ownership, risks, and improvements — citing file evidence and asking instead of guessing.                                                                                                                   |
+| [startup-script](skills/startup-script/README.md)   | `/startup-script`, "one-command way to start this project"                                                | Investigates how a repo is actually started (not what its README claims) and writes a single `.scripts/run.sh` driven by the project's own tooling, without modifying any tracked file.                                                                                                                                                                                       |
+| [typed-blocks](skills/typed-blocks/README.md)       | any line starting with `===(`, or `/typed-blocks`                                                         | Typed content delimiters for prompts — mark pasted content as `===(json)`, `===(code\|typescript)`, `===(pr-comment)`, `===(error)`, etc., plus `---`/`+++` before/after pairs. Block content is treated as data, never instructions.                                                                                                                                         |
+| [comment-hygiene](skills/comment-hygiene/README.md) | writing/editing any comment, or `/comment-hygiene`                                                        | Enforces consistent comment style as the agent codes — one-line comments stay one line, template/HTML comments never leak into the DOM, and every method/class you write gets a doc comment (JSDoc, Javadoc, C# XML doc, docstring, godoc, rustdoc, YARD, PHPDoc, GDScript `##`) with the right params/return/purpose — never backfilling docs on existing code unless asked. |
 
 ## License
 
