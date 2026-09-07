@@ -1,6 +1,6 @@
 ---
 name: comment-hygiene
-description: "Enforce consistent comment style every time you write or edit code. ALWAYS apply when adding, editing, or reviewing comments in any language — single-line vs block form, doc comments (jsdoc, javadoc, C# XML doc, docstring, godoc, rustdoc, YARD, phpdoc, GDScript ##), and template/HTML comments that must not leak into the DOM. Also use when the user types /comment-hygiene or asks to review, clean up, or standardize comments. Keeps one-line comments to one line, prefers the comment syntax each language actually wants, and gives every method/class you write a doc comment with the right shape (params, return, purpose) — never backfilling docs on existing code unless asked."
+description: "Enforce consistent comment style every time you write or edit code. ALWAYS apply when adding, editing, or reviewing comments in any language — single-line vs block form, doc comments (jsdoc, javadoc, C# XML doc, docstring, godoc, rustdoc, YARD, phpdoc, GDScript ##), and template/HTML comments that must not leak into the DOM. Also use when the user types /comment-hygiene or asks to review, clean up, or standardize comments. Keeps one-line comments to one line, prefers the comment syntax each language actually wants, gives every method/class you write a doc comment with the right shape (params, return, purpose), and marks every unit test with mandatory // Arrange, // Act, // Assert comments — never backfilling docs on existing code unless asked."
 license: MIT
 ---
 
@@ -8,19 +8,21 @@ license: MIT
 
 You are writing comments a human will read later. Comments cost attention, so every one must earn it. Apply these rules to any comment you write or directly edit. Do **not** mass-reformat comments you aren't otherwise touching — only enforce on lines you add or change.
 
-## The five rules
+## The six rules
 
 1. **One line means one line.** A single-line comment (`//`, `#`, `--`, …) stays on one line. Never stack two or three of them to fake a paragraph — if you need more than one line, either tighten the wording or use the language's block/doc form.
 2. **Prefer single-line, non-doc comments for inline notes.** Reach for `/** */`-style blocks only for method documentation or when a note genuinely spans multiple lines. An inline "why" almost always fits on one `//`.
 3. **Document what you write; leave the rest alone.** When you **write a new** method/function or class/type, give it a doc comment: methods get a **≤5-line** description plus **every parameter** and the **return**; classes/types get a short doc comment describing their purpose and responsibility (class-level docs matter — they orient the reader before the members do). Prefer more lines only when truly unavoidable. Do **not** backfill or reformat doc comments on **existing** methods or classes you didn't write — only do that when the user explicitly asks (e.g. "add docs", or by invoking `/comment-hygiene`).
 4. **Say what the code can't.** A comment states intent, a constraint, a gotcha, or a "why" — never a restatement of the next line. If the comment just narrates the code, delete it.
 5. **Never leak comments into output.** Avoid HTML `<!-- -->` (it ships to the DOM). In templating languages use the engine's own comment syntax, which is stripped before rendering. In compiled stylesheets (SCSS/LESS) prefer `//`, which never reaches the CSS.
+6. **Every unit test carries Arrange/Act/Assert.** When you write a unit test, mark its three phases with mandatory comments — `// Arrange`, `// Act`, `// Assert` — one before each block, in that order. Use the language's single-line comment token instead of `//` where that's what it uses (e.g. `# Arrange` in Python/Ruby). Keep each on its own line; if a phase is genuinely empty, still label it or fold it into the neighboring block rather than dropping the sequence.
 
 ## Before you write any comment
 
 - Is it one line? Keep it one line.
 - Am I writing a new method or class? Give it a doc comment — methods need params + return, classes need their purpose.
 - Is the method/class pre-existing (not written by me)? Leave its docs alone unless the user asked.
+- Am I writing a unit test? Mark its phases with `// Arrange`, `// Act`, `// Assert`.
 - Am I in a template or HTML? Use a comment form that won't render.
 - Does it restate the code? Then don't write it.
 

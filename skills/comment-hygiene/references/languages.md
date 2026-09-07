@@ -185,3 +185,39 @@ Use the engine's own comment syntax — these are removed before the HTML is sen
 | Twig                  | `{# … #}`                                                                  | No                     |
 
 Rule of thumb: if the engine offers a native comment, use it; reserve `<!-- -->` for the rare case where you deliberately want the note in the shipped HTML.
+
+## Unit tests — Arrange / Act / Assert
+
+Every unit test you write gets the three mandatory phase comments, in order, using the language's single-line comment token:
+
+- `//` languages (C#, Java, JS/TS, Go, Rust, PHP): `// Arrange`, `// Act`, `// Assert`
+- `#` languages (Python, Ruby, GDScript): `# Arrange`, `# Act`, `# Assert`
+
+Put each label on its own line before its block. If a phase is trivially empty, still label it (or fold it into the adjacent block) rather than dropping the sequence.
+
+```csharp
+[Fact]
+public void ResolveUser_InvalidToken_ReturnsNull()
+{
+    // Arrange
+    var sut = new SessionService();
+
+    // Act
+    var user = sut.ResolveUser("bad-token");
+
+    // Assert
+    Assert.Null(user);
+}
+```
+
+```python
+def test_resolve_user_invalid_token_returns_none():
+    # Arrange
+    sut = SessionService()
+
+    # Act
+    user = sut.resolve_user("bad-token")
+
+    # Assert
+    assert user is None
+```

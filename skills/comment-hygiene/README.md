@@ -7,6 +7,7 @@ The rules it enforces:
 - **One-line comments stay one line.** No stacks of `//` or `#` faking a paragraph.
 - **Prefer single-line notes** over `/** */` blocks for inline "why" comments.
 - **New methods and classes get a doc comment.** When the agent writes a new method or class it documents it in the right form — JSDoc, Javadoc, C# XML doc, Python docstring, godoc, rustdoc, YARD, PHPDoc, or GDScript `##` — a ≤5-line description covering every parameter and the return for methods, and the purpose for classes/types. It never backfills docs on existing code you didn't ask it to touch.
+- **Every unit test is marked Arrange / Act / Assert.** New unit tests get the mandatory `// Arrange`, `// Act`, `// Assert` phase comments (using the language's comment token, e.g. `# Arrange` in Python).
 - **Comments say what code can't** — intent, constraints, gotchas — never a restatement of the next line.
 - **Nothing leaks into the DOM** — avoid HTML `<!-- -->`; use each templating engine's stripped comment syntax, and prefer `//` in SCSS/LESS so notes never reach the compiled CSS.
 
