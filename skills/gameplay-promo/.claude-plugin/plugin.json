@@ -1,7 +1,7 @@
 {
   "name": "gameplay-promo",
   "description": "Film a game and cut it into a promo video — a staged opener on the main character, gameplay sampled out of one long played take, a closing title card, and a music track chosen from the project, with the cuts landing on the beat. Captures real footage from the running game rather than recreating it, and needs only ffmpeg and Node.",
-  "version": "1.0.0",
+  "version": "0.2.1",
   "license": "MIT",
   "author": {
     "name": "Marjan Kolev",

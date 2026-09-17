@@ -14,9 +14,10 @@ player will not see is worse than no promo, because the first review says so.
 
 Three or four shots and a soundtrack:
 
-1. **The opener**, up to 10 seconds — the main character alone, doing one thing that ends in motion.
-   For a space game: the ship sits still, its engines light, it launches. This is the only part that
-   is staged, and it is still rendered by the game itself.
+1. **The opener**, up to 10 seconds — the main character alone, **drawn much larger than it ever is
+   in play**, doing one thing that ends in motion. For a space game: the ship sits still, its engines
+   light and the hull shakes, then it launches. This is the only part that is staged, and it is still
+   rendered by the game itself.
 2. **Gameplay**, the bulk of it. Ask for **one long take — two to three minutes** — and sample short
    windows out of it. Ask the user to play it themselves unless they say otherwise: an autopilot
    dodges on a timer and it shows, while a person hesitates, cuts it fine, and recovers.
@@ -143,8 +144,8 @@ Anything that can write a file this way works. A Godot project films itself with
 godot --path <project> <scene> --write-movie {{out}} --fixed-fps 60 --quit-after {{frames}}
 ```
 
-Flags like `--sv-film` in the examples here are **one project's**, not a convention. Every project
-names its own; the contract is the command, not the flags inside it.
+Flag names in the examples here are illustrative. Every project names its own, and most have none
+until someone adds them — the contract is the command, not the flags inside it.
 
 That is a **fixed-frame-rate render, not a screen recording** — it cannot drop frames under load,
 and two runs produce identical footage. Prefer it to any screen capture when the engine offers one.
@@ -177,6 +178,12 @@ has none — read it during step 0.5, not step 2.
 ## The laws
 
 - **Film the game, never a drawing of it.** If a shot cannot be captured, cut the shot.
+- **The opener's character is far bigger than in play — and it shakes.** In gameplay a character is
+  sized to fit between obstacles; alone on a 1920-wide frame at that size it is a speck, and the
+  shot reads as an empty sky. Draw it **3–4x gameplay scale, filling roughly a quarter to a third of
+  the frame height**, and shake it in proportion to the effort — the arcade shake is what makes the
+  launch feel like force rather than a tween. Extract a frame and look at it before moving on; this
+  is the single most common way the opener comes out wrong.
 - **Prefer a person to an autopilot.** Scripted play reads as scripted: evenly spaced dodges, no
   hesitation, no near-misses. Offer the autopilot only as a fallback, and say which one produced
   the footage.

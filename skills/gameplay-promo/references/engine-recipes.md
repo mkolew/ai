@@ -63,7 +63,7 @@ It needs a real window. Adding `--headless` to quieten it produces a file that i
 **Film mode** is a command-line flag the project parses, gating the visibility of its own chrome:
 
 ```gdscript
-_film = OS.get_cmdline_args().has("--sv-film")
+_film = OS.get_cmdline_args().has("--film")
 ...
 _key_hint.visible = keys and not wanted and not _film
 _pause_button.visible = _state == State.RUNNING and not _film
@@ -90,8 +90,11 @@ The pattern that makes it look right: **borrow the game's drawing, not its physi
 controller exists to turn input into motion; an opener's motion is a fixed timeline. Instantiating
 the controller means fighting it.
 
-Draw the character **larger than gameplay** — 3–4x. In play it is sized to fit between obstacles;
-alone on a 1920-wide frame at that size it is a speck.
+Draw the character **3–4x its gameplay scale**, filling about a quarter to a third of the frame
+height, and shake it in proportion to its effort. Both are load-bearing and both are easy to skip:
+in play the character is sized to fit between obstacles, and at that size alone on a 1920-wide frame
+it is a speck in an empty sky. `ShipArt.draw_plume(canvas, thrust, lean, t, SCALE)` and
+`ShipArt.draw_into(canvas, SCALE, ...)` both take the scale — pass the opener's, not the game's.
 
 ## Unity — not verified
 

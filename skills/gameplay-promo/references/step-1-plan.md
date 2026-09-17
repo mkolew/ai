@@ -4,27 +4,27 @@ Turn the four answers into `promo-output/promo.json`, show it to the user, and s
 
 ## The file
 
-Below is one real project's plan, as an example. `--sv-film`, `--sv-sim` and the scene path are
-**that project's own** — every game names its own flags, and most have none until someone adds them.
-What is fixed is the shape of the file and the `{{out}}` / `{{frames}}` placeholders.
+The shape below is fixed; every value in it is the project's own. Flag names, scene paths and
+folder layout differ per game — and most games have no film flag at all until someone adds one.
+Only the field names and the `{{out}}` / `{{frames}}` placeholders are part of the contract.
 
 ```json
 {
-  "title": "The Last Space Voyager",
-  "music": "audio/music/music_departure.ogg",
+  "title": "Comet Runner",
+  "music": "assets/music/main-theme.ogg",
   "output": "promo.mp4",
   "fps": 30,
   "shots": [
     {
       "name": "intro",
       "seconds": 5.4,
-      "command": "godot --path godot res://tools/launch_intro.tscn --write-movie {{out}} --fixed-fps 60 --quit-after {{frames}}"
+      "command": "godot --path game res://tools/opener.tscn --write-movie {{out}} --fixed-fps 60 --quit-after {{frames}}"
     },
     {
       "name": "run",
       "seconds": 46,
       "skip": 24,
-      "command": "godot --path godot --sv-film --sv-sim --sv-invuln --write-movie {{out}} --fixed-fps 60 --quit-after {{frames}}"
+      "command": "godot --path game --film --demo --write-movie {{out}} --fixed-fps 60 --quit-after {{frames}}"
     }
   ]
 }
@@ -52,10 +52,10 @@ node scripts/find-music.mjs <project-dir> --beats
 ```
 12 distinct audio file(s), 3 long enough to be music:
 
-  ♪   91s  audio/music/music_burnout.ogg     140 BPM (conf 2.057)  (3 copies)
-  ♪   61s  audio/music/music_deepfield.ogg  126.75 BPM (conf 1.623)  (3 copies)
-  ♪   55s  audio/music/music_departure.ogg     108 BPM (conf 1.773)  (3 copies)
-      27s  audio/music/title_theme.ogg  (3 copies)
+  ♪   91s  assets/music/chase.ogg           140 BPM (conf 2.057)  (3 copies)
+  ♪   61s  assets/music/drift.ogg          126.75 BPM (conf 1.623)  (3 copies)
+  ♪   55s  assets/music/main-theme.ogg      108 BPM (conf 1.773)  (3 copies)
+      27s  assets/music/title.ogg  (3 copies)
 ```
 
 `♪` marks files long enough to be a track rather than an effect. "3 copies" means the same file
@@ -96,7 +96,7 @@ Ask. Default to the user playing it, and **ask for two to three minutes**, not t
   "skip": 6,
   "sample": { "count": 4, "seconds": 6 },
   "interactive": true,
-  "command": "godot --path godot --sv-film --write-movie {{out}} --fixed-fps 60"
+  "command": "godot --path game --film --write-movie {{out}} --fixed-fps 60"
 }
 ```
 
@@ -117,7 +117,7 @@ new code at all: run the game and simply do not start a match.
 {
   "name": "logo",
   "seconds": 3,
-  "command": "godot --path godot --sv-film --write-movie {{out}} --fixed-fps 60 --quit-after {{frames}}"
+  "command": "godot --path game --film --write-movie {{out}} --fixed-fps 60 --quit-after {{frames}}"
 }
 ```
 
@@ -141,8 +141,29 @@ twenty seconds of capture time and is the difference between "an empty sky" and 
 The user describes the character and its action. Turn that into one sentence of choreography with
 timings, and confirm it:
 
-> The ship sits still for 1.1s, engines ramp from nothing to full over 1.9s while the hull shakes,
-> holds half a second, then accelerates out of frame over 1.9s. 5.4s total.
+> The ship sits still for 1.1s, engines ramp from nothing to full over 1.9s while the hull shakes
+> harder as they build, holds half a second, then accelerates out of frame over 1.9s. 5.4s total.
+
+**Two things decide whether this shot works, and both are easy to get wrong.**
+
+**Scale.** The character must be drawn **3–4x its gameplay size** — roughly a quarter to a third of
+the frame height. Gameplay sizes a character to fit between obstacles, which is correct in play and
+looks like an empty sky when it is the only thing on screen. Whatever the game's own draw call
+takes as a scale, multiply it; do not reuse the gameplay value.
+
+**Shake.** Displace the character by a few pixels per frame, scaled by how hard it is working, so
+the shake builds with the engines and is at its strongest just before it moves. Stop it the moment
+it launches — the shake is the character fighting to hold still, and once it is away there is
+nothing left to fight. Without this the launch reads as a tween; with it, as force.
+
+Then **look at a frame** before going further:
+
+```bash
+ffmpeg -v error -ss 3.0 -i promo-output/clips/intro.avi -frames:v 1 -vf scale=760:-1 check.png
+```
+
+If the character is small in that frame, the scale is wrong — fix it before capturing anything else.
+This is the most common way the opener comes out disappointing, and it costs one render to catch.
 
 If the project has no scene that can render this, stop and say so. Writing one is a change to the
 game — it belongs to the project, not to this skill — and it needs the user's agreement first.
