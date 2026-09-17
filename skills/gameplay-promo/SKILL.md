@@ -12,17 +12,59 @@ player will not see is worse than no promo, because the first review says so.
 
 ## What you are making
 
-Two shots and a soundtrack:
+Three or four shots and a soundtrack:
 
 1. **The opener**, up to 10 seconds — the main character alone, doing one thing that ends in motion.
    For a space game: the ship sits still, its engines light, it launches. This is the only part that
    is staged, and it is still rendered by the game itself.
-2. **Gameplay**, the rest — a real run. Ask the user to play it themselves unless they say
-   otherwise: an autopilot dodges on a timer and it shows, while a person hesitates, cuts it fine,
-   and recovers. Those near-misses are the shot.
-3. **Music** from a folder the user provides, with the cut between shots landing on a beat.
+2. **Gameplay**, the bulk of it. Ask for **one long take — two to three minutes** — and sample short
+   windows out of it. Ask the user to play it themselves unless they say otherwise: an autopilot
+   dodges on a timer and it shows, while a person hesitates, cuts it fine, and recovers.
+3. **A closing card** — the title screen, logo or splash, 2–3 seconds. Almost every game already has
+   one and it needs no new code: run the game and do not start a match.
+4. **One music track**, chosen by the user, running from its first second to the last frame.
 
 Target 25–35 seconds. Store listings are not social clips; there is room to show the game.
+
+### Why one long take, sampled
+
+A single continuous slice shows one difficulty, one level, one kind of moment. Four six-second
+windows spread across three minutes show the game **getting harder**, which is the thing worth
+advertising. The first window is deliberately the start of play — it is the only one a viewer is
+guaranteed to see — and the rest are spread so the last lands near the end of the session, where the
+play is best.
+
+Six seconds is the default for a reason: long enough to read a situation and watch it resolve, short
+enough that nothing outstays its welcome. Below four it reads as a montage of fragments; past ten a
+single window starts to feel like the whole video.
+
+Segments are joined by a **dip through black**, about a fifth of a second each side. That is the
+standard way to say "later, same game" without a caption, and it is why the cut does not read as a
+glitch.
+
+### Music: find it, then ask
+
+```bash
+node scripts/find-music.mjs <project-dir> --beats
+```
+
+That lists the audio already in the repo, longest first, marking what is long enough to be a track
+and reporting each one's tempo. It collapses duplicates — game repos routinely hold the same file
+in a canonical folder and again inside each engine's tree.
+
+1. **Something found?** Show the list and **ask which to use.** Do not pick for them. You cannot
+   hear any of it, and a track's fit with a game is not a property you can measure.
+2. **Nothing found?** Ask for a path — a file or a folder to look in.
+
+**The captured audio is never the soundtrack.** Engines often record the game's own sound along with
+the video, and it is tempting because it is free and in sync. It does not survive the edit: a
+recording carries whatever the game happened to be doing at that second — a track mid-fade between
+difficulty tiers, an explosion across a cut, a menu's silence — and chopping it into six-second
+windows turns that into noise. One track, chosen deliberately, laid under the whole film.
+
+**The track runs from its own 0th second to the last frame** — through the opener, every gameplay
+window and the closing card, as one continuous piece. It is never restarted per segment, and it is
+never started partway in.
 
 ## Step 0 — what you need before anything
 
@@ -65,6 +107,10 @@ All three are changes to **the user's game**, not to this skill.
    scene nothing loads on its own. A player's build must be byte-identical in behaviour, and you
    should verify that rather than assume it — capture a normal run and confirm the HUD is still
    there.
+   **And verify the flag works at all.** Engines ignore command-line flags they do not recognise,
+   silently and with exit code 0. Passing `--film` to a game that never implemented it produces a
+   clean capture full of chrome and no error anywhere. Grep the source for the flag, then look at a
+   captured frame.
 3. **Additive and separable.** New files, or guarded lines in existing ones. Never refactor
    something on the way past. The user should be able to revert the lot in one commit and lose only
    the ability to film.

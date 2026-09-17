@@ -1,6 +1,6 @@
 {
   "name": "ai",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "description": "Reusable building blocks for AI coding agents — skills installable with `npx skills add`, and more as it grows",
   "type": "module",

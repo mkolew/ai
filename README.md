@@ -154,7 +154,7 @@ npm run verify   # validate every skill (frontmatter, naming, body, README)
    {
      "name": "my-skill",
      "description": "What it does, for the plugin browser",
-     "version": "0.1.0",
+     "version": "1.0.0",
      "license": "MIT",
      "author": { "name": "Your Name", "url": "https://github.com/you" },
      "skills": ["./"]

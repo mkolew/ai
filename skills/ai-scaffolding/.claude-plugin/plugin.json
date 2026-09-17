@@ -1,7 +1,7 @@
 {
   "name": "ai-scaffolding",
   "description": "Interview-driven scaffolding of AI coding agent configs — CLAUDE.md, GitHub Copilot instructions, Cursor rules, OpenAI Codex, Gemini CLI, and the cross-tool AGENTS.md baseline — generated in the exact locations each tool reads.",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "license": "MIT",
   "author": {
     "name": "Marjan Kolev",

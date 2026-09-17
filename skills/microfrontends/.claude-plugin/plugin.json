@@ -1,7 +1,7 @@
 {
   "name": "microfrontends",
   "description": "Analyze a codebase's microfrontend architecture: federation type, host/remote topology, vertical vs horizontal split, technology map, communication model, and route ownership — citing file evidence and asking instead of guessing.",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "license": "MIT",
   "author": {
     "name": "Marjan Kolev",

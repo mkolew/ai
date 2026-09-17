@@ -1,7 +1,7 @@
 {
   "name": "comment-hygiene",
   "description": "Enforce consistent comment style as the agent writes code — one-line comments stay one line, template/HTML comments never leak into the DOM, every method/class you write gets a doc comment (JSDoc, Javadoc, C# XML doc, docstring, godoc, rustdoc, YARD, PHPDoc, GDScript ##) with the right params/return/purpose, and every unit test is marked // Arrange, // Act, // Assert — never backfilling docs on existing code unless asked.",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "license": "MIT",
   "author": {
     "name": "Marjan Kolev",
