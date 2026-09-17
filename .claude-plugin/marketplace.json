@@ -36,6 +36,12 @@
       "source": "./skills/comment-hygiene",
       "description": "Enforce consistent comment style as the agent writes code — one-line comments stay one line, template/HTML comments never leak into the DOM, every method/class you write gets a doc comment (JSDoc, Javadoc, C# XML doc, docstring, godoc, rustdoc, YARD, PHPDoc, GDScript ##) with the right params/return/purpose, and every unit test is marked // Arrange, // Act, // Assert — never backfilling docs on existing code unless asked.",
       "category": "productivity"
+    },
+    {
+      "name": "gameplay-promo",
+      "source": "./skills/gameplay-promo",
+      "description": "Film a game and cut it into a promo video: a short cinematic opener on the main character, then real captured gameplay, scored to music with the cuts landing on the beat — ffmpeg and Node only, no video framework.",
+      "category": "media"
     }
   ]
 }
