@@ -38,6 +38,26 @@ function submodules() {
   );
 }
 
+/**
+ * Skills published from another repository — marketplace entries whose `source` is an
+ * object rather than a path in this repo. Their files are not here (a submodule only
+ * pins them for navigation), so the catalog is the only thing that can describe them.
+ *
+ * @returns {{name: string, description: string, repo: string}[]} one per external entry.
+ */
+export function loadExternalSkills() {
+  const file = new URL('../.claude-plugin/marketplace.json', import.meta.url).pathname;
+  if (!existsSync(file)) return [];
+  const { plugins = [] } = JSON.parse(readFileSync(file, 'utf8'));
+  return plugins
+    .filter((plugin) => plugin.source && typeof plugin.source === 'object')
+    .map((plugin) => ({
+      name: plugin.name,
+      description: plugin.description ?? '(no description)',
+      repo: plugin.source.repo ?? plugin.source.url ?? 'elsewhere'
+    }));
+}
+
 export function loadSkills() {
   if (!existsSync(SKILLS_DIR)) return [];
   return readdirSync(SKILLS_DIR)
