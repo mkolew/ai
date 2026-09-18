@@ -10,7 +10,8 @@
  *
  * Also validates .claude-plugin/marketplace.json: every skill is published as
  * its own plugin (source: "./skills/<name>", one plugin.json per skill), and
- * every plugin entry points at a skill that exists.
+ * every plugin entry points at a skill that exists. Entries whose source is an
+ * object live in another repo and are only checked for a "repo".
  * Exit code 1 on any failure (CI-friendly).
  */
 import { existsSync, readFileSync } from "node:fs";
@@ -96,6 +97,14 @@ if (!existsSync(MARKETPLACE_FILE)) {
       const label = `.claude-plugin/marketplace.json: plugin "${entry.name ?? "<unnamed>"}"`;
       if (!entry.name) problems.push(`${label}: missing "name"`);
       if (!entry.description) problems.push(`${label}: missing "description"`);
+
+      // A plugin whose source is an object lives in another repo — there is no
+      // local directory to check, and the fields below are that repo's problem.
+      if (entry.source && typeof entry.source === "object") {
+        if (!entry.source.repo)
+          problems.push(`${label}: external "source" missing "repo"`);
+        continue;
+      }
 
       const expected = `./skills/${entry.name}`;
       if (entry.source !== expected) {

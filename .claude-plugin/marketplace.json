@@ -39,7 +39,10 @@
     },
     {
       "name": "gameplay-promo",
-      "source": "./skills/gameplay-promo",
+      "source": {
+        "source": "github",
+        "repo": "mkolew/gameplay-promo"
+      },
       "description": "Film a game and cut it into a promo video: a short cinematic opener on the main character, then real captured gameplay, scored to music with the cuts landing on the beat — ffmpeg and Node only, no video framework.",
       "category": "media"
     }
