@@ -1,0 +1,3 @@
+[submodule "skills/gameplay-promo"]
+	path = skills/gameplay-promo
+	url = https://github.com/mkolew/gameplay-promo.git
