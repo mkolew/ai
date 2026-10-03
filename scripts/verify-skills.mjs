@@ -14,19 +14,19 @@
  * object live in another repo and are only checked for a "repo".
  * Exit code 1 on any failure (CI-friendly).
  */
-import { existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
-import { loadSkills, SKILLS_DIR } from "./lib.mjs";
+import { existsSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { loadSkills, SKILLS_DIR } from './lib.mjs';
 
 const MARKETPLACE_FILE = new URL(
-  "../.claude-plugin/marketplace.json",
+  '../.claude-plugin/marketplace.json',
   import.meta.url,
 ).pathname;
 
 const problems = [];
 const skills = loadSkills();
 
-if (skills.length === 0) problems.push("no skills found in skills/");
+if (skills.length === 0) problems.push('no skills found in skills/');
 
 for (const skill of skills) {
   const where = `skills/${skill.dir}`;
@@ -54,12 +54,12 @@ for (const skill of skills) {
   }
   if (skill.body.trim().length < 100)
     problems.push(`${where}/SKILL.md: body looks empty`);
-  if (!existsSync(join(SKILLS_DIR, skill.dir, "README.md"))) {
+  if (!existsSync(join(SKILLS_DIR, skill.dir, 'README.md'))) {
     problems.push(
       `${where}: missing README.md (every skill must document itself for humans)`,
     );
   }
-  if (!existsSync(join(SKILLS_DIR, skill.dir, "examples", "prompts.md"))) {
+  if (!existsSync(join(SKILLS_DIR, skill.dir, 'examples', 'prompts.md'))) {
     problems.push(
       `${where}: missing examples/prompts.md (every skill must ship copy-paste prompts)`,
     );
@@ -68,11 +68,11 @@ for (const skill of skills) {
 
 // Marketplace catalog: one plugin per skill, kept in sync with skills/.
 if (!existsSync(MARKETPLACE_FILE)) {
-  problems.push(".claude-plugin/marketplace.json: missing");
+  problems.push('.claude-plugin/marketplace.json: missing');
 } else {
   let marketplace;
   try {
-    marketplace = JSON.parse(readFileSync(MARKETPLACE_FILE, "utf8"));
+    marketplace = JSON.parse(readFileSync(MARKETPLACE_FILE, 'utf8'));
   } catch (err) {
     problems.push(
       `.claude-plugin/marketplace.json: invalid JSON (${err.message})`,
@@ -94,13 +94,12 @@ if (!existsSync(MARKETPLACE_FILE)) {
     // source across entries makes plugin identity ambiguous to installers.
     const published = new Set();
     for (const entry of entries) {
-      const label = `.claude-plugin/marketplace.json: plugin "${entry.name ?? "<unnamed>"}"`;
+      const label = `.claude-plugin/marketplace.json: plugin "${entry.name ?? '<unnamed>'}"`;
       if (!entry.name) problems.push(`${label}: missing "name"`);
       if (!entry.description) problems.push(`${label}: missing "description"`);
 
-      // A plugin whose source is an object lives in another repo — there is no
-      // local directory to check, and the fields below are that repo's problem.
-      if (entry.source && typeof entry.source === "object") {
+      // An object source lives in another repo: no local directory to check.
+      if (entry.source && typeof entry.source === 'object') {
         if (!entry.source.repo)
           problems.push(`${label}: external "source" missing "repo"`);
         continue;
@@ -114,15 +113,15 @@ if (!existsSync(MARKETPLACE_FILE)) {
         continue;
       }
       const dir = entry.name;
-      if (!existsSync(join(SKILLS_DIR, dir, "SKILL.md"))) {
+      if (!existsSync(join(SKILLS_DIR, dir, 'SKILL.md'))) {
         problems.push(`${label}: source "${entry.source}" has no SKILL.md`);
         continue;
       }
       const pluginManifest = join(
         SKILLS_DIR,
         dir,
-        ".claude-plugin",
-        "plugin.json",
+        '.claude-plugin',
+        'plugin.json',
       );
       if (!existsSync(pluginManifest)) {
         problems.push(
@@ -130,7 +129,7 @@ if (!existsSync(MARKETPLACE_FILE)) {
         );
       } else {
         try {
-          const manifest = JSON.parse(readFileSync(pluginManifest, "utf8"));
+          const manifest = JSON.parse(readFileSync(pluginManifest, 'utf8'));
           if (manifest.name !== dir) {
             problems.push(`${label}: plugin.json "name" must be "${dir}"`);
           }
@@ -155,7 +154,7 @@ if (!existsSync(MARKETPLACE_FILE)) {
 }
 
 if (problems.length > 0) {
-  console.error("Skill verification failed:");
+  console.error('Skill verification failed:');
   for (const p of problems) console.error(`  - ${p}`);
   process.exit(1);
 }

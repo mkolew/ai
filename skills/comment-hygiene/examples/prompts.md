@@ -16,6 +16,17 @@ comment or missing @param / return. Show me the fixes before applying.
 
 ---
 
+## Check that comments are still true
+
+```text
+/comment-hygiene check every comment in <FILE OR FOLDER> against the code it
+describes. List the claims that are no longer true first, then comments that
+restate the code or signature, file/ADR links the reader doesn't need, and any
+project history ("Phase 2", "old", "ported from"). Fix them.
+```
+
+---
+
 ## Add doc comments to every method
 
 ```text

@@ -2,8 +2,9 @@
 
 The rules from `SKILL.md`, made concrete per technology. Single-line comments stay
 one line; inline notes prefer the single-line form over doc blocks. Doc comments
-(shown per language below) are added **only when the user asks** — methods document
-every parameter and the return, classes/types describe their purpose, in ≤5 lines.
+(shown per language below) go on new methods and classes you write, and on existing
+ones only when the user asks — methods document every parameter and the return,
+classes/types describe their purpose, in ≤5 lines.
 
 ## JavaScript / TypeScript
 
