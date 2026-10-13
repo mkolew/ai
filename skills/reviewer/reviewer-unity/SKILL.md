@@ -58,6 +58,14 @@ Scope: `*.cs`, `*.jslib`, `Assets/WebGLTemplates/**`, `Packages/manifest.json`, 
 - `///` XML doc comments where the project documents.
 - Gameplay numbers in the project's tuning or data file, not hard-coded.
 
+## Readability
+
+Apply [reviewer-readability](../reviewer-readability/SKILL.md) to the same files (names, structure, dead code, and whether comments are true, needed and well-shaped), plus:
+
+- `///` XML doc comments on public types and members the project documents; `[Tooltip]` on serialized fields designers edit.
+- `#region` blocks that hide a long class are a smell: the class does too much.
+- `Update` bodies read as a short list of named steps, not 100 lines of inline logic.
+
 ## Not findings
 
 - Allocation in code that runs once (setup, menus) rather than per frame.

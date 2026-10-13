@@ -51,6 +51,12 @@ Scope: `*.md`, `LICENSE*`, attribution and font licence texts. HTML pages go to 
 
 - No secrets, tokens, internal hostnames or personal data.
 
+## Readability
+
+Apply [reviewer-readability](../reviewer-readability/SKILL.md) to the same files (names, structure, dead code, and whether comments are true, needed and well-shaped), plus:
+
+- Docs readability is covered by the checklist above (truth, answer-first, one term per concept). Code samples inside the docs follow the readability rules of their language.
+
 ## Not findings
 
 - Wording preferences when the text is correct and clear.

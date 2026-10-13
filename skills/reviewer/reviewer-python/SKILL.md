@@ -57,6 +57,14 @@ Scope: `*.py`. Find the Python that runs the code (CI setup, shebang, `python3 -
 
 - PEP 8 names; docstrings and type hints where the project uses them; `if __name__ == "__main__":` for scripts that are also imported.
 
+## Readability
+
+Apply [reviewer-readability](../reviewer-readability/SKILL.md) to the same files (names, structure, dead code, and whether comments are true, needed and well-shaped), plus:
+
+- Docstrings are the first statement of public functions, classes and modules, in the form the project uses. Type hints where the project uses them.
+- Comprehensions stay one level deep; anything longer becomes a loop or a named helper.
+- `# noqa` and `# type: ignore` carry a reason.
+
 ## Not findings
 
 - Missing type hints in a project that doesn't use them.

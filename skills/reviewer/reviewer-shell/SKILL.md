@@ -58,6 +58,14 @@ Scope: `*.sh`, `*.bash`, and executables with a `sh` or `bash` shebang. Find out
 - The usage text and header comment list exactly the commands and flags the `case` branches handle.
 - Shared helpers come from the project's `lib/` files instead of being copied into each script.
 
+## Readability
+
+Apply [reviewer-readability](../reviewer-readability/SKILL.md) to the same files (names, structure, dead code, and whether comments are true, needed and well-shaped), plus:
+
+- The header comment lists every command and flag exactly as the `case` branches handle them, with a one-line description each.
+- Functions are named by what they do (`export_web`, `adb_state`); globals that tune behaviour are `UPPER_CASE` and set near the top.
+- Non-obvious flags and quirks get a one-line why (`sed -i ''` for BSD sed, `|| true` that is deliberate, a `pipefail` workaround). Long pipelines break across lines with a trailing `\`.
+
 ## Not findings
 
 - Style that shellcheck does not flag and the project does consistently.

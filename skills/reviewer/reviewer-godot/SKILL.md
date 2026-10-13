@@ -73,6 +73,14 @@ Scope: `*.gd`, `*.tscn`, `*.tres`, `*.gdshader`, `project.godot`, `export_preset
 
 - Headless tests must exit non-zero on failure (`quit(1)`), and new tests are registered in the runner or CI list.
 
+## Readability
+
+Apply [reviewer-readability](../reviewer-readability/SKILL.md) to the same files (names, structure, dead code, and whether comments are true, needed and well-shaped), plus:
+
+- `##` doc comments sit above the class (`class_name`), functions, signals and exported vars the project documents; `#` for inline notes. Typed signatures already document types, so the comment says purpose and side effects.
+- Member order follows the style guide (signals, enums, constants, exports, vars, `@onready`, built-in callbacks, public, private) unless the project has its own.
+- Scene-tree lookups by long `$Path/To/Node` strings in many places read worse than one `@onready` var with a clear name.
+
 ## Not findings
 
 - Missing types in a project that does not use static typing.

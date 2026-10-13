@@ -59,6 +59,14 @@ Scope: `*.html`, `*.css`, browser `*.js`/`*.mjs`, `*.svg`, `*.webmanifest`, `rob
 - The manifest has `name`, `start_url`, `display`, and icons at 192 and 512 px (plus maskable if used).
 - The service worker update flow does not trap users on an old build.
 
+## Readability
+
+Apply [reviewer-readability](../reviewer-readability/SKILL.md) to the same files (names, structure, dead code, and whether comments are true, needed and well-shaped), plus:
+
+- CSS custom properties are named by role (`--muted`, `--delft-deep`), not by value (`--grey-2`). Class names follow one scheme.
+- Notes for developers go in CSS `/* */` or JS comments, never HTML comments.
+- JSDoc on browser functions the project documents. Inline `style=""` only for one-off values such as a swatch colour.
+
 ## Not findings
 
 - Vendor prefixes and formatting a build tool or formatter handles.

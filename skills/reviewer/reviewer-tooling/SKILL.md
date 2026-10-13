@@ -55,6 +55,13 @@ Scope: `.github/workflows/*`, `package.json`, `pnpm-workspace.yaml`, `.npmrc`, `
 
 - Base images pinned. No secrets in layers. Make targets are `.PHONY` where needed, and fail on error.
 
+## Readability
+
+Apply [reviewer-readability](../reviewer-readability/SKILL.md) to the same files (names, structure, dead code, and whether comments are true, needed and well-shaped), plus:
+
+- Every workflow step has a `name:` that says what it does. A non-obvious condition, pin or cache key has a one-line `#` comment explaining why.
+- Scripts in `package.json` are named by what they do; long inline shell moves into a script file.
+
 ## Not findings
 
 - Formatting of YAML or JSON.

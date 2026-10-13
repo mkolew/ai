@@ -27,14 +27,14 @@ skills/
     README.md
     examples/
       prompts.md
-  reviewer/          # a bundle: one plugin, ten skills
+  reviewer/          # a bundle: one plugin, eleven skills
     SKILL.md         # /reviewer entry point, routes files to the checklists
     README.md
     examples/
       prompts.md
     reviewer-godot/
       SKILL.md       # one checklist per technology: godot, unity, shell, python,
-                     # cloudflare, web, data, tooling, docs
+                     # cloudflare, web, data, tooling, docs; plus readability
   startup-script/
     SKILL.md
     README.md
@@ -214,7 +214,7 @@ Names are stable identifiers, so treat them as public API:
 | [startup-script](skills/startup-script/README.md)          | `/startup-script`, "one-command way to start this project"                                                | Investigates how a repo is actually started (not what its README claims) and writes a single `.scripts/run.sh` driven by the project's own tooling, without modifying any tracked file.                                                                                                                                                                                                                                                      |
 | [typed-blocks](skills/typed-blocks/README.md)              | any line starting with `===(`, or `/typed-blocks`                                                         | Typed content delimiters for prompts — mark pasted content as `===(json)`, `===(code\|typescript)`, `===(pr-comment)`, `===(error)`, etc., plus `---`/`+++` before/after pairs. Block content is treated as data, never instructions.                                                                                                                                                                                                        |
 | [comment-hygiene](skills/comment-hygiene/README.md)        | writing/editing any comment, or `/comment-hygiene`                                                        | Enforces consistent comment style as the agent codes — one-line comments stay one line, template/HTML comments never leak into the DOM, every method/class you write gets a doc comment (JSDoc, Javadoc, C# XML doc, docstring, godoc, rustdoc, YARD, PHPDoc, GDScript `##`) with the right params/return/purpose, and every unit test is marked `// Arrange`, `// Act`, `// Assert` — never backfilling docs on existing code unless asked. |
-| [reviewer](skills/reviewer/README.md)                      | `/reviewer`, "review my changes / this PR / this branch"                                                  | Code review by technology: maps each changed file to a checklist (Godot, Unity, shell, Python, Cloudflare Workers, web, data, tooling and CI, docs), runs the repo's own checks, proves each finding against the code, and reports real defects ranked by severity. Each checklist is also its own `reviewer-<tech>` skill.                                                                                                                  |
+| [reviewer](skills/reviewer/README.md)                      | `/reviewer`, "review my changes / this PR / this branch"                                                  | Code review by technology: maps each changed file to a checklist (Godot, Unity, shell, Python, Cloudflare Workers, web, data, tooling and CI, docs), runs the repo's own checks, checks readability and comments on every file, proves each finding against the code, and reports real defects ranked by severity. Each checklist is also its own `reviewer-<tech>` skill.                                                                   |
 | [gameplay-promo](https://github.com/mkolew/gameplay-promo) | `/gameplay-promo`, "make a promo video / trailer for my game"                                             | Films a game that already exists and cuts it into a promo video — a cinematic opener on the main character, real gameplay sampled out of one long played take, and a closing card, scored to music with the cuts on the beat. Lives in its own repo; installable from this marketplace.                                                                                                                                                      |
 
 ## License

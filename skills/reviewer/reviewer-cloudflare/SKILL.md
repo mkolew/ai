@@ -57,6 +57,14 @@ Scope: `wrangler.toml` / `wrangler.json*`, the Worker entry (`main`) and every m
 
 - New endpoints and branches have tests, including rejected input.
 
+## Readability
+
+Apply [reviewer-readability](../reviewer-readability/SKILL.md) to the same files (names, structure, dead code, and whether comments are true, needed and well-shaped), plus:
+
+- The request router reads as a table: method and path to handler, one line each.
+- JSDoc on exported handlers and helpers the project documents. Status codes and header names come from named constants when they repeat.
+- Each non-obvious header or encoding choice (`encodeBody: "manual"`, a cache rule) has a one-line why.
+
 ## Not findings
 
 - Missing rate limits on read-only, cacheable endpoints with bounded output.

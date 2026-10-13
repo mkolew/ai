@@ -1,7 +1,7 @@
 {
   "name": "reviewer",
-  "description": "Code review by technology — one /reviewer entry point that maps each changed file to a checklist (Godot, Unity, shell, Python, Cloudflare Workers, web, data, tooling and CI, docs), proves every finding against the code, and reports real defects ranked by severity.",
-  "version": "1.0.0",
+  "description": "Code review by technology — one /reviewer entry point that maps each changed file to a checklist (Godot, Unity, shell, Python, Cloudflare Workers, web, data, tooling and CI, docs), checks readability and comments on every file, proves every finding against the code, and reports real defects ranked by severity.",
+  "version": "1.1.0",
   "license": "MIT",
   "author": {
     "name": "Marjan Kolev",
@@ -19,13 +19,15 @@
     "./reviewer-web",
     "./reviewer-data",
     "./reviewer-tooling",
-    "./reviewer-docs"
+    "./reviewer-docs",
+    "./reviewer-readability"
   ],
   "keywords": [
     "code-review",
     "review",
     "godot",
     "unity",
-    "cloudflare"
+    "cloudflare",
+    "readability"
   ]
 }

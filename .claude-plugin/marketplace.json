@@ -39,7 +39,7 @@
     {
       "name": "reviewer",
       "source": "./skills/reviewer",
-      "description": "Code review by technology — one /reviewer entry point that maps each changed file to a checklist (Godot, Unity, shell, Python, Cloudflare Workers, web, data, tooling and CI, docs), proves every finding against the code, and reports real defects ranked by severity.",
+      "description": "Code review by technology — one /reviewer entry point that maps each changed file to a checklist (Godot, Unity, shell, Python, Cloudflare Workers, web, data, tooling and CI, docs), checks readability and comments on every file, proves every finding against the code, and reports real defects ranked by severity.",
       "category": "development"
     },
     {

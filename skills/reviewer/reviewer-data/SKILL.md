@@ -56,6 +56,13 @@ Scope: JSON the app or its tools read (`tuning.json`, `data/*.json`, fixtures, a
 - Rows and keys stay in a stable order, so diffs show real changes.
 - Very large files: check the size the bundle or repo can take.
 
+## Readability
+
+Apply [reviewer-readability](../reviewer-readability/SKILL.md) to the same files (names, structure, dead code, and whether comments are true, needed and well-shaped), plus:
+
+- Field names follow one case convention across the file and the code that reads it.
+- JSON has no comments, so the meaning and unit of each tuning value must be clear from its name or documented where the code reads it. A rationale or `note` column in CSV override files is filled in.
+
 ## Not findings
 
 - Formatting differences that a stable generator produces.

@@ -1,26 +1,27 @@
 ---
 name: reviewer
-description: 'Review code changes by technology. Use when the user types /reviewer, or asks to review a diff, branch, pull request, commit, folder or files ("review my changes", "review this PR"). Maps every changed file to its technology (Godot, Unity, shell, Python, Cloudflare Workers, web pages, data files, tooling and CI, docs), applies the matching reviewer-* checklist, proves each finding against the code, and reports one list of real defects ranked by severity. No praise and no style nits a formatter would catch.'
+description: 'Review code changes by technology. Use when the user types /reviewer, or asks to review a diff, branch, pull request, commit, folder or files ("review my changes", "review this PR"). Maps every changed file to its technology (Godot, Unity, shell, Python, Cloudflare Workers, web pages, data files, tooling and CI, docs), applies the matching reviewer-* checklist plus a readability and comments check on every file, proves each finding against the code, and reports one list of real defects ranked by severity. No praise and no style nits a formatter would catch.'
 license: MIT
 ---
 
 # Reviewer
 
-You review changes the way a senior engineer who owns the codebase would. Find the defects that will hurt: wrong behaviour, crashes, data loss, security holes, broken builds or deploys, and docs that lie. Report only what you can show is real.
+You review changes the way a senior engineer who owns the codebase would. Find the defects that will hurt: wrong behaviour, crashes, data loss, security holes, broken builds or deploys, and docs that lie. Then find what will mislead or slow down the next person to read the code: false comments, misleading names, dead code, duplication that will drift. Report only what you can show is real.
 
 The technology checklists live next to this file, one folder each. When the bundle is installed as separate skills, invoke `reviewer-<tech>` instead of reading the file.
 
-| Checklist | Files |
-| --- | --- |
-| [reviewer-godot](reviewer-godot/SKILL.md) | `*.gd`, `*.tscn`, `*.tres`, `project.godot`, `export_presets.cfg`, `*.gdshader` |
-| [reviewer-unity](reviewer-unity/SKILL.md) | `*.cs`, `*.jslib`, `Assets/WebGLTemplates/**`, `Packages/manifest.json`, `ProjectSettings/**` |
-| [reviewer-shell](reviewer-shell/SKILL.md) | `*.sh`, `*.bash`, files with a `sh`/`bash` shebang |
-| [reviewer-python](reviewer-python/SKILL.md) | `*.py` |
-| [reviewer-cloudflare](reviewer-cloudflare/SKILL.md) | `wrangler.toml`/`wrangler.json*`, the Worker entry and everything it imports, D1 `*.sql`, Worker tests |
-| [reviewer-web](reviewer-web/SKILL.md) | `*.html`, `*.css`, browser `*.js`/`*.mjs`, `*.svg`, `*.webmanifest`, `robots.txt` |
-| [reviewer-data](reviewer-data/SKILL.md) | JSON the app reads (tuning, content, fixtures), `*.csv`, word and block lists |
-| [reviewer-tooling](reviewer-tooling/SKILL.md) | `.github/workflows/*`, `package.json`, `pnpm-workspace.yaml`, `.gitignore`, `.gitattributes`, `.claude/**`, `Makefile`, `Dockerfile` |
-| [reviewer-docs](reviewer-docs/SKILL.md) | `*.md`, licence and attribution texts |
+| Checklist                                             | Files                                                                                                                                |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| [reviewer-godot](reviewer-godot/SKILL.md)             | `*.gd`, `*.tscn`, `*.tres`, `project.godot`, `export_presets.cfg`, `*.gdshader`                                                      |
+| [reviewer-unity](reviewer-unity/SKILL.md)             | `*.cs`, `*.jslib`, `Assets/WebGLTemplates/**`, `Packages/manifest.json`, `ProjectSettings/**`                                        |
+| [reviewer-shell](reviewer-shell/SKILL.md)             | `*.sh`, `*.bash`, files with a `sh`/`bash` shebang                                                                                   |
+| [reviewer-python](reviewer-python/SKILL.md)           | `*.py`                                                                                                                               |
+| [reviewer-cloudflare](reviewer-cloudflare/SKILL.md)   | `wrangler.toml`/`wrangler.json*`, the Worker entry and everything it imports, D1 `*.sql`, Worker tests                               |
+| [reviewer-web](reviewer-web/SKILL.md)                 | `*.html`, `*.css`, browser `*.js`/`*.mjs`, `*.svg`, `*.webmanifest`, `robots.txt`                                                    |
+| [reviewer-data](reviewer-data/SKILL.md)               | JSON the app reads (tuning, content, fixtures), `*.csv`, word and block lists                                                        |
+| [reviewer-tooling](reviewer-tooling/SKILL.md)         | `.github/workflows/*`, `package.json`, `pnpm-workspace.yaml`, `.gitignore`, `.gitattributes`, `.claude/**`, `Makefile`, `Dockerfile` |
+| [reviewer-docs](reviewer-docs/SKILL.md)               | `*.md`, licence and attribution texts                                                                                                |
+| [reviewer-readability](reviewer-readability/SKILL.md) | every hand-written file above, in addition to its technology checklist                                                               |
 
 A JavaScript file belongs to where it runs: Unity WebGL plugin or template → unity; imported by the Worker → cloudflare; loaded by a page → web.
 
@@ -37,7 +38,7 @@ Skip what nobody hand-writes: lockfiles, `.uid`, `.import`, `.meta`, `.asset`, m
 
 - Read the project rules first: `CLAUDE.md`, `AGENTS.md`, `README.md`, contributing notes, the CI workflow. A project rule beats a generic checklist item. A deliberate deviation with a comment explaining why is not a finding.
 - Read whole changed functions and their callers, not just the hunk. Most real bugs sit where the change meets code it did not touch.
-- Group the files by checklist and read each checklist once.
+- Group the files by checklist and read each checklist once. Read reviewer-readability as well: it applies to every file.
 
 ## 3. Run what the project already has
 
@@ -57,12 +58,12 @@ One list across all technologies, most severe first:
   fix: write progress.json.tmp, then DirAccess.rename_absolute() over the original.
 ```
 
-| Severity | Means |
-| --- | --- |
-| critical | data loss, security hole, crash on a common path, broken build or deploy |
-| high | wrong behaviour users will hit |
-| medium | edge-case bug, real performance cost, a check or test that no longer guards anything |
-| low | convention drift with a concrete cost (misleading name, doc out of date) |
+| Severity | Means                                                                                                                                                           |
+| -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| critical | data loss, security hole, crash on a common path, broken build or deploy                                                                                        |
+| high     | wrong behaviour users will hit                                                                                                                                  |
+| medium   | edge-case bug, real performance cost, a check or test that no longer guards anything, a false comment or misleading name that would lead the next change astray |
+| low      | readability or convention drift with a concrete cost (dead code, a missing why, duplication that will drift)                                                    |
 
 - No praise, no summary of what the change does, no nits a formatter or linter fixes automatically.
 - Nothing found → say `No findings` and list what you checked and ran.
