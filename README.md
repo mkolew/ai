@@ -27,6 +27,14 @@ skills/
     README.md
     examples/
       prompts.md
+  reviewer/          # a bundle: one plugin, ten skills
+    SKILL.md         # /reviewer entry point, routes files to the checklists
+    README.md
+    examples/
+      prompts.md
+    reviewer-godot/
+      SKILL.md       # one checklist per technology: godot, unity, shell, python,
+                     # cloudflare, web, data, tooling, docs
   startup-script/
     SKILL.md
     README.md
@@ -64,6 +72,7 @@ This repo doubles as a plugin marketplace named `mkolew`. Each skill ships as it
 /plugin install typed-blocks@mkolew
 /plugin install startup-script@mkolew
 /plugin install comment-hygiene@mkolew
+/plugin install reviewer@mkolew
 /reload-plugins
 ```
 
@@ -93,7 +102,7 @@ claude plugin install typed-blocks@mkolew -s project # shared with the team
 }
 ```
 
-**After installing**, Claude invokes each skill automatically from its `description` triggers. To invoke one by hand, use the plugin namespace: `/microfrontends:microfrontends`, `/ai-scaffolding:ai-scaffolding`, `/typed-blocks:typed-blocks`, `/startup-script:startup-script`.
+**After installing**, Claude invokes each skill automatically from its `description` triggers. To invoke one by hand, use the plugin namespace: `/microfrontends:microfrontends`, `/ai-scaffolding:ai-scaffolding`, `/typed-blocks:typed-blocks`, `/startup-script:startup-script`, `/reviewer:reviewer` (or one checklist, e.g. `/reviewer:reviewer-godot`).
 
 **Updates.** Run `/plugin marketplace update mkolew` to refresh the catalog. Plugins are pinned to the `version` in `marketplace.json`, so a new copy arrives only when that string changes — see [Releasing](#releasing).
 
@@ -111,6 +120,7 @@ npx skills@latest add mkolew/ai --skill ai-scaffolding
 npx skills@latest add mkolew/ai --skill typed-blocks
 npx skills@latest add mkolew/ai --skill startup-script
 npx skills@latest add mkolew/ai --skill comment-hygiene
+npx skills@latest add mkolew/ai --skill reviewer
 ```
 
 The installer copies the skill into your agent's skill directory (e.g. `.claude/skills/` for Claude Code), where it becomes automatically discoverable.
@@ -122,7 +132,7 @@ npm run list     # list all skills with descriptions
 npm run verify   # validate every skill (frontmatter, naming, body, README)
 ```
 
-`verify` fails when a skill is missing `SKILL.md`, `README.md`, or `examples/prompts.md`, when frontmatter `name` does not match the directory name, when `description` is absent or exceeds 1024 characters, or when the instruction body is effectively empty.
+`verify` also checks the nested skills a bundle lists in its `plugin.json`. It fails when a skill is missing `SKILL.md`, `README.md`, or `examples/prompts.md`, when frontmatter `name` does not match the directory name, when `description` is absent or exceeds 1024 characters, or when the instruction body is effectively empty.
 
 ## Adding a new skill
 
@@ -197,14 +207,15 @@ Names are stable identifiers, so treat them as public API:
 
 ## Available skills
 
-| Skill                                               | Triggers on                                                                                               | Description                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| --------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [ai-scaffolding](skills/ai-scaffolding/README.md)   | `/ai-scaffolding`, "set up CLAUDE.md / copilot instructions / cursor rules / AGENTS.md"                   | Interviews you about project type, layout, stack, and target agents, then generates tailored AI agent configs where each tool reads them — Claude Code, GitHub Copilot, Cursor, OpenAI Codex, Gemini CLI, and the cross-tool `AGENTS.md` baseline.                                                                                                                                                                                           |
-| [microfrontends](skills/microfrontends/README.md)   | `/microfrontends`, mentions of _microfrontend, shell, host, remote, module federation, native federation_ | Analyzes a codebase's microfrontend architecture: federation type, host/remote topology, vertical vs horizontal split, technology map, communication model, route ownership, risks, and improvements — citing file evidence and asking instead of guessing.                                                                                                                                                                                  |
-| [startup-script](skills/startup-script/README.md)   | `/startup-script`, "one-command way to start this project"                                                | Investigates how a repo is actually started (not what its README claims) and writes a single `.scripts/run.sh` driven by the project's own tooling, without modifying any tracked file.                                                                                                                                                                                                                                                      |
-| [typed-blocks](skills/typed-blocks/README.md)       | any line starting with `===(`, or `/typed-blocks`                                                         | Typed content delimiters for prompts — mark pasted content as `===(json)`, `===(code\|typescript)`, `===(pr-comment)`, `===(error)`, etc., plus `---`/`+++` before/after pairs. Block content is treated as data, never instructions.                                                                                                                                                                                                        |
-| [comment-hygiene](skills/comment-hygiene/README.md) | writing/editing any comment, or `/comment-hygiene`                                                        | Enforces consistent comment style as the agent codes — one-line comments stay one line, template/HTML comments never leak into the DOM, every method/class you write gets a doc comment (JSDoc, Javadoc, C# XML doc, docstring, godoc, rustdoc, YARD, PHPDoc, GDScript `##`) with the right params/return/purpose, and every unit test is marked `// Arrange`, `// Act`, `// Assert` — never backfilling docs on existing code unless asked. |
-| [gameplay-promo](https://github.com/mkolew/gameplay-promo)  | `/gameplay-promo`, "make a promo video / trailer for my game"                                             | Films a game that already exists and cuts it into a promo video — a cinematic opener on the main character, real gameplay sampled out of one long played take, and a closing card, scored to music with the cuts on the beat. Lives in its own repo; installable from this marketplace.                                                                                                                                              |
+| Skill                                                      | Triggers on                                                                                               | Description                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [ai-scaffolding](skills/ai-scaffolding/README.md)          | `/ai-scaffolding`, "set up CLAUDE.md / copilot instructions / cursor rules / AGENTS.md"                   | Interviews you about project type, layout, stack, and target agents, then generates tailored AI agent configs where each tool reads them — Claude Code, GitHub Copilot, Cursor, OpenAI Codex, Gemini CLI, and the cross-tool `AGENTS.md` baseline.                                                                                                                                                                                           |
+| [microfrontends](skills/microfrontends/README.md)          | `/microfrontends`, mentions of _microfrontend, shell, host, remote, module federation, native federation_ | Analyzes a codebase's microfrontend architecture: federation type, host/remote topology, vertical vs horizontal split, technology map, communication model, route ownership, risks, and improvements — citing file evidence and asking instead of guessing.                                                                                                                                                                                  |
+| [startup-script](skills/startup-script/README.md)          | `/startup-script`, "one-command way to start this project"                                                | Investigates how a repo is actually started (not what its README claims) and writes a single `.scripts/run.sh` driven by the project's own tooling, without modifying any tracked file.                                                                                                                                                                                                                                                      |
+| [typed-blocks](skills/typed-blocks/README.md)              | any line starting with `===(`, or `/typed-blocks`                                                         | Typed content delimiters for prompts — mark pasted content as `===(json)`, `===(code\|typescript)`, `===(pr-comment)`, `===(error)`, etc., plus `---`/`+++` before/after pairs. Block content is treated as data, never instructions.                                                                                                                                                                                                        |
+| [comment-hygiene](skills/comment-hygiene/README.md)        | writing/editing any comment, or `/comment-hygiene`                                                        | Enforces consistent comment style as the agent codes — one-line comments stay one line, template/HTML comments never leak into the DOM, every method/class you write gets a doc comment (JSDoc, Javadoc, C# XML doc, docstring, godoc, rustdoc, YARD, PHPDoc, GDScript `##`) with the right params/return/purpose, and every unit test is marked `// Arrange`, `// Act`, `// Assert` — never backfilling docs on existing code unless asked. |
+| [reviewer](skills/reviewer/README.md)                      | `/reviewer`, "review my changes / this PR / this branch"                                                  | Code review by technology: maps each changed file to a checklist (Godot, Unity, shell, Python, Cloudflare Workers, web, data, tooling and CI, docs), runs the repo's own checks, proves each finding against the code, and reports real defects ranked by severity. Each checklist is also its own `reviewer-<tech>` skill.                                                                                                                  |
+| [gameplay-promo](https://github.com/mkolew/gameplay-promo) | `/gameplay-promo`, "make a promo video / trailer for my game"                                             | Films a game that already exists and cuts it into a promo video — a cinematic opener on the main character, real gameplay sampled out of one long played take, and a closing card, scored to music with the cuts on the beat. Lives in its own repo; installable from this marketplace.                                                                                                                                                      |
 
 ## License
 

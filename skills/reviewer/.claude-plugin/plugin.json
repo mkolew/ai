@@ -1,0 +1,31 @@
+{
+  "name": "reviewer",
+  "description": "Code review by technology — one /reviewer entry point that maps each changed file to a checklist (Godot, Unity, shell, Python, Cloudflare Workers, web, data, tooling and CI, docs), proves every finding against the code, and reports real defects ranked by severity.",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": {
+    "name": "Marjan Kolev",
+    "url": "https://github.com/mkolew"
+  },
+  "homepage": "https://github.com/mkolew/ai/blob/main/skills/reviewer/README.md",
+  "repository": "https://github.com/mkolew/ai",
+  "skills": [
+    "./",
+    "./reviewer-godot",
+    "./reviewer-unity",
+    "./reviewer-shell",
+    "./reviewer-python",
+    "./reviewer-cloudflare",
+    "./reviewer-web",
+    "./reviewer-data",
+    "./reviewer-tooling",
+    "./reviewer-docs"
+  ],
+  "keywords": [
+    "code-review",
+    "review",
+    "godot",
+    "unity",
+    "cloudflare"
+  ]
+}

@@ -11,12 +11,14 @@
  * Also validates .claude-plugin/marketplace.json: every skill is published as
  * its own plugin (source: "./skills/<name>", one plugin.json per skill), and
  * every plugin entry points at a skill that exists. Entries whose source is an
- * object live in another repo and are only checked for a "repo".
+ * object live in another repo and are only checked for a "repo". A bundle's
+ * plugin.json may list nested skill folders; each must hold a valid SKILL.md
+ * whose name matches its folder.
  * Exit code 1 on any failure (CI-friendly).
  */
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { loadSkills, SKILLS_DIR } from './lib.mjs';
+import { loadSkills, parseFrontmatter, SKILLS_DIR } from './lib.mjs';
 
 const MARKETPLACE_FILE = new URL(
   '../.claude-plugin/marketplace.json',
@@ -123,13 +125,14 @@ if (!existsSync(MARKETPLACE_FILE)) {
         '.claude-plugin',
         'plugin.json',
       );
+      let manifest;
       if (!existsSync(pluginManifest)) {
         problems.push(
           `${label}: missing skills/${dir}/.claude-plugin/plugin.json`,
         );
       } else {
         try {
-          const manifest = JSON.parse(readFileSync(pluginManifest, 'utf8'));
+          manifest = JSON.parse(readFileSync(pluginManifest, 'utf8'));
           if (manifest.name !== dir) {
             problems.push(`${label}: plugin.json "name" must be "${dir}"`);
           }
@@ -139,6 +142,31 @@ if (!existsSync(MARKETPLACE_FILE)) {
         } catch (err) {
           problems.push(`${label}: plugin.json invalid JSON (${err.message})`);
         }
+      }
+      // A bundle lists further skill folders in plugin.json; each is a skill of its own.
+      for (const path of manifest?.skills ?? []) {
+        const sub = path.replace(/^\.\//, '').replace(/\/$/, '');
+        if (sub === '') continue;
+        const where = `skills/${dir}/${sub}`;
+        const file = join(SKILLS_DIR, dir, sub, 'SKILL.md');
+        if (!existsSync(file)) {
+          problems.push(`${where}: listed in plugin.json but has no SKILL.md`);
+          continue;
+        }
+        const { fields, body } = parseFrontmatter(readFileSync(file, 'utf8'));
+        const name = sub.split('/').pop();
+        if (!fields)
+          problems.push(`${where}/SKILL.md: missing frontmatter block`);
+        else if (fields.name !== name)
+          problems.push(
+            `${where}/SKILL.md: name "${fields.name}" does not match directory "${name}"`,
+          );
+        else if (!fields.description || fields.description.length > 1024)
+          problems.push(
+            `${where}/SKILL.md: description missing or over 1024 characters`,
+          );
+        if (body.trim().length < 100)
+          problems.push(`${where}/SKILL.md: body looks empty`);
       }
       published.add(dir);
     }
